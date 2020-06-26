@@ -11,10 +11,6 @@ public class GameEvents : MonoBehaviour
         {
             instance = this;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     public event Action<int, Item> OnInventoryItemAdded;

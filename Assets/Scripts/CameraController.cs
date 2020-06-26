@@ -2,8 +2,6 @@
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player;
-    public Vector3 offset = new Vector3(0, 1, -1.5f);
     private Vector3 currentRotation;
 
     private void Update()
@@ -14,7 +12,7 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = player.transform.position;
-        transform.eulerAngles = new Vector3(currentRotation.y, player.transform.eulerAngles.y, 0);
+        transform.position = Player.instance.transform.position;
+        transform.eulerAngles = new Vector3(currentRotation.y, Player.instance.transform.eulerAngles.y, 0);
     }
 }

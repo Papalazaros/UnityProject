@@ -1,13 +1,16 @@
-﻿using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlotController : MonoBehaviour, IInventorySlot
 {
-    public Text title;
-    public Text itemCount;
-    public Image image;
-    public int slot;
+    [SerializeField]
+    private Text title;
+    [SerializeField]
+    private Text itemCount;
+    [SerializeField]
+    private Image image;
+    [SerializeField]
+    private int slot;
 
     public Item Item { get; set; }
     public int Count { get; set; }

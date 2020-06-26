@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Oscillator : MonoBehaviour
 {
+    [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float rate;
+    [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float maximumOffset;
     private int moveDirection = 1;
     private Vector3 initialPosition;
-    [Range(0.0f, 1.0f)]
-    public float rate;
-    public float maximumOffset;
     private Rigidbody rigidbody;
 
     private void Start()

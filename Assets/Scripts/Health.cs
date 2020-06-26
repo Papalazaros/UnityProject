@@ -4,27 +4,16 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour, IHealth
 {
-    [Range(0f, 100f)]
-    public float passiveRegenRate;
-    [Range(0f, 100f)]
-    public float startingHealth;
-    [Range(0f, 100f)]
-    public float minHealth;
-    [Range(0f, 100f)]
-    public float maxHealth;
-    [Range(0.25f, 1.0f)]
-    public float tickRate;
-    public bool enablePassiveRegen;
-
-    public float PassiveRegenRate { get => passiveRegenRate; set => passiveRegenRate = value; }
+    public float PassiveRegenRate { get; set; }
     public float CurrentHealth { get; set; }
-    public float StartingHealth { get => startingHealth; set => startingHealth = value; }
-    public float MinHealth { get => minHealth; set => minHealth = value; }
-    public float MaxHealth { get => maxHealth; set => maxHealth = value; }
-    public float TickRate { get => tickRate; set => tickRate = value; }
-    public bool EnablePassiveRegen { get => enablePassiveRegen; set => enablePassiveRegen = value; }
+    public float StartingHealth { get; set; }
+    public float MinHealth { get; set; }
+    public float MaxHealth { get; set; }
+    public float TickRate { get; set; }
+    public bool EnablePassiveRegen { get; set; }
 
-    public Slider HealthBar;
+    [SerializeField]
+    private Slider HealthBar;
 
     public void Heal(float amount, int applyOverDuration = 0)
     {
@@ -33,7 +22,7 @@ public class Health : MonoBehaviour, IHealth
 
     public void InhibitPassiveRegenRate(float duration)
     {
-        if (enablePassiveRegen)
+        if (EnablePassiveRegen)
         {
             StartCoroutine(PausePassiveRegen(duration));
         }
@@ -46,18 +35,18 @@ public class Health : MonoBehaviour, IHealth
 
     public IEnumerator PausePassiveRegen(float duration)
     {
-        enablePassiveRegen = false;
+        EnablePassiveRegen = false;
         float remainingDuration = duration;
 
         for (;;)
         {
             if (remainingDuration <= 0)
             {
-                enablePassiveRegen = true;
+                EnablePassiveRegen = true;
                 yield break;
             }
-            remainingDuration -= tickRate;
-            yield return new WaitForSeconds(tickRate);
+            remainingDuration -= TickRate;
+            yield return new WaitForSeconds(TickRate);
         }
     }
 
@@ -70,25 +59,25 @@ public class Health : MonoBehaviour, IHealth
         }
 
         float remainingDamage = damage;
-        float damagePerTick = damage / (applyOverDuration / tickRate);
+        float damagePerTick = damage / (applyOverDuration / TickRate);
 
         while (remainingDamage > 0)
         {
             CurrentHealth -= damagePerTick;
             remainingDamage -= damagePerTick;
-            yield return new WaitForSeconds(tickRate);
+            yield return new WaitForSeconds(TickRate);
         }
     }
 
     private void Start()
     {
-        CurrentHealth = startingHealth;
+        CurrentHealth = StartingHealth;
     }
 
     private void Update()
     {
-        if (enablePassiveRegen) CurrentHealth += passiveRegenRate * Time.deltaTime;
-        CurrentHealth = Mathf.Clamp(CurrentHealth, minHealth, maxHealth);
+        if (EnablePassiveRegen) CurrentHealth += PassiveRegenRate * Time.deltaTime;
+        CurrentHealth = Mathf.Clamp(CurrentHealth, MinHealth, MaxHealth);
         HealthBar.value = CurrentHealth;
     }
 }

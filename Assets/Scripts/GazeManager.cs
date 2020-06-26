@@ -2,7 +2,8 @@
 
 public class GazeManager : MonoBehaviour
 {
-    public float gazeDistance;
+    [SerializeField]
+    private float gazeDistance;
     private Camera mainCamera;
     private GameObject lastGazedUpon;
 

@@ -5,12 +5,11 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
-    public GameObject inventoryPanel;
+    [SerializeField]
+    private GameObject inventoryPanel;
     private int? selectedSlot;
-
     private int totalCapacity;
     private int remainingCapacity;
-
     private Dictionary<int, Image> cachedInventoryImages;
     private IInventorySlot[] inventorySlots;
 
@@ -24,10 +23,6 @@ public class Inventory : MonoBehaviour
             remainingCapacity = inventoryPanel.transform.childCount;
             cachedInventoryImages = new Dictionary<int, Image>(totalCapacity);
             inventorySlots = inventoryPanel.GetComponentsInChildren<IInventorySlot>();
-        }
-        else
-        {
-            Destroy(gameObject);
         }
     }
 

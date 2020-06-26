@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
+    [SerializeField]
     [Range(0.1f, 0.5f)]
-    public float ceilingDistance;
+    private float ceilingDistance;
+    [SerializeField]
     [Range(0f, 5f)]
-    public float jumpHeight;
-    private Vector3 _velocity;
-    private bool _isGrounded;
+    private float jumpHeight;
+    private Vector3 velocity;
+    private bool isGrounded;
     private float jumpCooldown;
-
-    public CharacterController _controller;
-    public GameObject _colliderTop;
-    public GameObject _colliderBottom;
+    private CharacterController controller;
+    private GameObject colliderTop;
+    private GameObject colliderBottom;
 
     private void Start()
     {
-        _controller = GetComponent<CharacterController>();
-        _colliderTop = transform.GetChild(0).gameObject;
-        _colliderBottom = transform.GetChild(1).gameObject;
+        controller = GetComponent<CharacterController>();
+        colliderTop = transform.GetChild(0).gameObject;
+        colliderBottom = transform.GetChild(1).gameObject;
     }
 
     private void DoJump()
     {
         if (jumpCooldown > 0)
         {
-            _velocity.y += Mathf.Sqrt(-2f * jumpHeight * Physics.gravity.y * .50f);
+            velocity.y += Mathf.Sqrt(-2f * jumpHeight * Physics.gravity.y * .50f);
         }
         else
         {
-            _velocity.y += Mathf.Sqrt(-2f * jumpHeight * Physics.gravity.y);
+            velocity.y += Mathf.Sqrt(-2f * jumpHeight * Physics.gravity.y);
         }
 
         jumpCooldown = 1;
@@ -39,16 +40,16 @@ public class Jump : MonoBehaviour
 
     private void Update()
     {
-        _isGrounded = Physics.Raycast(_colliderBottom.transform.position, Vector3.down, Player.instance.groundDistance);
+        isGrounded = Physics.Raycast(colliderBottom.transform.position, Vector3.down, Player.instance.groundDistance);
 
-        if (Input.GetButton("Jump") && _isGrounded) DoJump();
-        if (_isGrounded && _velocity.y < 0) _velocity.y = 0f;
-        if (!_isGrounded && _velocity.y < 0) _velocity.y += Physics.gravity.y * 1.5f * Time.deltaTime;
-        if (!_isGrounded && _velocity.y > 0 && Physics.Raycast(_colliderTop.transform.position, Vector3.up, ceilingDistance)) _velocity.y = 0;
+        if (Input.GetButton("Jump") && isGrounded) DoJump();
+        if (isGrounded && velocity.y < 0) velocity.y = 0f;
+        if (!isGrounded && velocity.y < 0) velocity.y += Physics.gravity.y * 1.5f * Time.deltaTime;
+        if (!isGrounded && velocity.y > 0 && Physics.Raycast(colliderTop.transform.position, Vector3.up, ceilingDistance)) velocity.y = 0;
         if (jumpCooldown > 0) jumpCooldown -= Time.deltaTime;
 
-        _velocity.y += Physics.gravity.y * Time.deltaTime;
+        velocity.y += Physics.gravity.y * Time.deltaTime;
 
-        _controller.Move(_velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime);
     }
 }

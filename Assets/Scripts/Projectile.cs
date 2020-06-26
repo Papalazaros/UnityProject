@@ -2,22 +2,12 @@
 
 public class Projectile: MonoBehaviour, IProjectile
 {
-    [Range(0.1f, 30f)]
-    public float expiration = 1.0f;
-    [Range(0.1f, 100f)]
-    public float damage = 25.0f;
-    public float weight = 1.0f;
-    [Range(0.1f, 100f)]
-    public float speed = 1.0f;
-    public bool useGravity;
-    public ProjectileType projectileType;
-
-    public float Damage { get => damage; set => damage = value; }
-    public float Weight { get => weight; set => weight = value; }
-    public float Expiration { get => expiration; set => expiration = value; }
-    public float Speed { get => speed; set => speed = value; }
-    public bool UseGravity { get => useGravity; set => useGravity = value; }
-    public ProjectileType ProjectileType { get => projectileType; set => projectileType = value; }
+    public float Damage { get; set; } = 25.0f;
+    public float Weight { get; set; } = 1.0f;
+    public float Expiration { get; set; } = 1.0f;
+    public float Speed { get; set; } = 1.0f;
+    public bool UseGravity { get; set; }
+    public ProjectileType ProjectileType { get; set; }
 
     private void Awake()
     {
@@ -26,10 +16,10 @@ public class Projectile: MonoBehaviour, IProjectile
 
     private void Update()
     {
-        transform.position += transform.rotation * Quaternion.Euler(0, -90, 0) * Vector3.forward * speed * Time.deltaTime;
-        if (useGravity) transform.position += Vector3.down * weight * Time.deltaTime;
-        expiration -= Time.deltaTime;
-        if (expiration <= 0) Destroy(gameObject);
+        transform.position += transform.rotation * Quaternion.Euler(0, -90, 0) * Vector3.forward * Speed * Time.deltaTime;
+        if (UseGravity) transform.position += Vector3.down * Weight * Time.deltaTime;
+        Expiration -= Time.deltaTime;
+        if (Expiration <= 0) Destroy(gameObject);
     }
 
     private void OnTriggerExit(Collider other)

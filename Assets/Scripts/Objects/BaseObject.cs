@@ -2,7 +2,8 @@
 
 public class BaseObject : MonoBehaviour, IGazeReceiver
 {
-    public int Id;
+    [SerializeField]
+    private int Id;
     protected bool isGazingUpon;
     protected bool textCreated;
     protected Camera mainCamera;
