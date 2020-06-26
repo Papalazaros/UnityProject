@@ -12,6 +12,18 @@ public sealed class Player : MonoBehaviour
     public CharacterController controller;
     private GameObject colliderBottom;
     public bool isGrounded;
+    public Equippable equippedItem;
+
+    public void EquipItem(Equippable item)
+    {
+        equippedItem = item;
+        EquippableObject equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), gameObject.transform);
+        equippedItemObject._isEquipped = true;
+        equippedItemObject.transform.position = instance.transform.position
+            + (instance.transform.rotation * Vector3.forward * .25f)
+            + (instance.transform.rotation * Vector3.down * .10f)
+            + (instance.transform.rotation * Vector3.right * .25f);
+    }
 
     private void Awake()
     {
@@ -24,6 +36,11 @@ public sealed class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
         colliderBottom = transform.GetChild(1).gameObject;
         currentMovementSpeed = baseMovementSpeed;
+    }
+
+    private void Start()
+    {
+        GameEvents.instance.OnItemEquipped += EquipItem;
     }
 
     private void Update()

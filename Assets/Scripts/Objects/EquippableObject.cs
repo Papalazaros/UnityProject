@@ -1,14 +1,30 @@
-﻿public class EquippableObject : InteractableObject, IEquippable
-{
-    public bool IsEquipped { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+﻿using UnityEngine;
 
-    public void Equip(BaseObject item)
+public class EquippableObject : InteractableObject
+{
+    public GameObject bulletOrigin;
+    public GameObject bullet;
+    //private Camera mainCamera;
+    public bool _isEquipped;
+
+    public void Fire()
     {
-        throw new System.NotImplementedException();
+        Instantiate(bullet, bulletOrigin.transform.position, transform.parent.rotation);
     }
 
-    public void Unequip(BaseObject item)
+    //private void Start()
+    //{
+    //    mainCamera = Camera.main;
+    //}
+
+    private void LateUpdate()
     {
-        throw new System.NotImplementedException();
+        if (_isEquipped)
+        {
+            //Vector3 rotateVector = transform.parent.transform.rotation * ((Vector3.forward * .50f) + (Vector3.down * .10f) + (Vector3.right * .25f));
+            //transform.position = transform.parent.transform.position + rotateVector;
+            //transform.eulerAngles = new Vector3(0, transform.parent.transform.eulerAngles.y + 90, mainCamera.transform.eulerAngles.x);
+            if (Input.GetKeyDown(KeyCode.Mouse0)) Fire();
+        }
     }
 }

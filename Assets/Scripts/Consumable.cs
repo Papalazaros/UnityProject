@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-public sealed class Consumable : Item
+public class Consumable : Item
 {
     public IReadOnlyList<Effect> Effects { get; set; }
 
-    public override void Consume()
+    public override void Use()
     {
         IHealth health = Player.instance.Health;
 

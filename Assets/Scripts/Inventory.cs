@@ -34,22 +34,26 @@ public class Inventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            if (inventorySlots[selectedSlot.Value].Count == 0) return;
+
             Item item = inventorySlots[selectedSlot.Value].Item;
 
             if (item != null)
             {
-                GameEvents.instance.InventoryItemRemoved(selectedSlot.Value, item);
-                item.Consume();
+                GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
+                item.Use();
             }
         }
 
         if (Input.GetKeyDown(KeyCode.G))
         {
+            if (inventorySlots[selectedSlot.Value].Count == 0) return;
+
             Item item = inventorySlots[selectedSlot.Value].Item;
 
             if (item != null)
             {
-                GameEvents.instance.InventoryItemRemoved(selectedSlot.Value, item);
+                GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
                 Drop(item);
             }
         }

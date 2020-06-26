@@ -12,6 +12,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
     [SerializeField]
     private int slot;
     private Image slotImage;
+    private Color initialColor;
 
     public Item Item { get; set; }
     public int Count { get; set; }
@@ -19,8 +20,9 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
     public void Start()
     {
         slotImage = GetComponent<Image>();
+        initialColor = slotImage.color;
         GameEvents.instance.OnInventoryItemAdded += AddItem;
-        GameEvents.instance.OnInventoryItemRemoved += RemoveItem;
+        GameEvents.instance.OnInventoryItemUsed += RemoveItem;
         GameEvents.instance.OnInventorySlotSelected += InventorySlotSelected;
     }
 
@@ -32,7 +34,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
         }
         else
         {
-            slotImage.color = new Color(200, 200, 200, 25);
+            slotImage.color = initialColor;
         }
     }
 
@@ -55,6 +57,11 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
 
     public void RemoveItem(int slot, Item item)
     {
+        if (item is Equippable equippable && Player.instance.equippedItem?.Id != item.Id)
+        {
+            GameEvents.instance.ItemEquipped(equippable);
+        }
+
         if (this.slot == slot)
         {
             if (Count == 1)
@@ -62,6 +69,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
                 title.text = null;
                 itemImage.sprite = null;
                 itemImage.color = new Color(255, 255, 255, 0);
+                itemImage.preserveAspect = true;
                 Item = null;
                 itemCount.text = null;
                 Count--;

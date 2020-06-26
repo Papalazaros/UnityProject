@@ -8,7 +8,8 @@
     public string Prefab { get; set; }
     public int MaxStackSize { get; set; }
 
-    public virtual void Consume()
+    public virtual void Use()
     {
+
     }
 }

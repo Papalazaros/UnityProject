@@ -38,6 +38,19 @@ public static class ItemDatabase
                         }
                     }
                 }
+            },
+            {
+                2,
+                new Equippable
+                {
+                    Id = 2,
+                    Description = "A gun.",
+                    MaxStackSize = 1,
+                    Name = "Weapon",
+                    Rarity = Rarity.Common,
+                    Sprite = "Sprites/1",
+                    Prefab = "Weapons/Gun"
+                }
             }
         };
     }
