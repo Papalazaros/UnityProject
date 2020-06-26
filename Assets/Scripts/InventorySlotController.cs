@@ -2,34 +2,57 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotController : MonoBehaviour
+public class InventorySlotController : MonoBehaviour, IInventorySlot
 {
-    public Text text;
+    public Text title;
+    public Text itemCount;
     public Image image;
     public int slot;
-    public Item currentItem;
 
-    private void LateUpdate()
+    public Item Item { get; set; }
+    public int Count { get; set; }
+
+    public void Start()
     {
-        Item item = Inventory.instance.GetItemAtPosition(slot);
-        if (currentItem != null && item == null)
+        GameEvents.instance.OnInventoryItemAdded += AddItem;
+        GameEvents.instance.OnInventoryItemRemoved += RemoveItem;
+    }
+
+    public void AddItem(int slot, Item item)
+    {
+        if (this.slot == slot)
         {
-            text.text = null;
-            image.sprite = null;
-            image.color = new Color(255, 255, 255, 0);
-            currentItem = null;
+            if (Item?.Id != item.Id)
+            {
+                title.text = item.Name;
+                image.sprite = Resources.Load<Sprite>(item.Sprite);
+                image.color = new Color(255, 255, 255, 255);
+                Item = item;
+            }
+
+            Count++;
+            itemCount.text = Count.ToString();
         }
-        if (item != null)
+    }
+
+    public void RemoveItem(int slot, Item item)
+    {
+        if (this.slot == slot)
         {
-            if (currentItem?.Id == item.Id) return;
-            text.text = item.Name;
-            image.sprite = Resources.Load<Sprite>(item.Sprite);
-            image.color = new Color(255, 255, 255, 255);
-            currentItem = item;
-        }
-        else if (currentItem != null)
-        {
-            currentItem = null;
+            if (Count == 1)
+            {
+                title.text = null;
+                image.sprite = null;
+                image.color = new Color(255, 255, 255, 0);
+                Item = null;
+                itemCount.text = null;
+                Count--;
+            }
+            else
+            {
+                Count--;
+                itemCount.text = Count.ToString();
+            }
         }
     }
 }

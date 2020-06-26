@@ -8,11 +8,11 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryPanel;
     private int? selectedSlot;
 
-    private Item[] inventoryItems;
     private int totalCapacity;
     private int remainingCapacity;
 
-    Dictionary<int, Image> cachedInventoryImages;
+    private Dictionary<int, Image> cachedInventoryImages;
+    private IInventorySlot[] inventorySlots;
 
     private void Awake()
     {
@@ -22,8 +22,8 @@ public class Inventory : MonoBehaviour
             // Get available inventory slots from UI component
             totalCapacity = inventoryPanel.transform.childCount;
             remainingCapacity = inventoryPanel.transform.childCount;
-            inventoryItems = new Item[remainingCapacity];
             cachedInventoryImages = new Dictionary<int, Image>(totalCapacity);
+            inventorySlots = inventoryPanel.GetComponentsInChildren<IInventorySlot>();
         }
         else
         {
@@ -31,22 +31,20 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private int? GetOpenSlot()
+    private int? GetOpenSlot(Item item)
     {
         for (int i = 0; i < totalCapacity; i++)
         {
-            if (inventoryItems[i] == null)
+            IInventorySlot inventorySlot = inventorySlots[i];
+            Item itemInSlot = inventorySlot.Item;
+
+            if (itemInSlot == null || inventorySlot.Count + 1 <= item.MaxStackSize)
             {
                 return i;
             }
         }
 
         return null;
-    }
-
-    public Item GetItemAtPosition(int index)
-    {
-        return inventoryItems[index];
     }
 
     public Image GetInventorySlotImage(int slot)
@@ -76,28 +74,28 @@ public class Inventory : MonoBehaviour
             selectedSlot = currentSelectedSlot;
         }
 
-        if (selectedSlot.HasValue
+        if (selectedSlot <= totalCapacity
             && Input.GetKeyDown(KeyCode.Return))
         {
-            Item item = inventoryItems[selectedSlot.Value];
+            Item item = inventorySlots[selectedSlot.Value].Item;
 
             if (item != null)
             {
+                GameEvents.instance.InventoryItemRemoved(selectedSlot.Value, item);
                 item.Consume();
-                inventoryItems[selectedSlot.Value] = null;
                 remainingCapacity++;
             }
         }
 
-        if (selectedSlot.HasValue
+        if (selectedSlot <= totalCapacity
             && Input.GetKeyDown(KeyCode.G))
         {
-            Item item = inventoryItems[selectedSlot.Value];
+            Item item = inventorySlots[selectedSlot.Value].Item;
 
             if (item != null)
             {
+                GameEvents.instance.InventoryItemRemoved(selectedSlot.Value, item);
                 Drop(item);
-                inventoryItems[selectedSlot.Value] = null;
                 remainingCapacity++;
             }
         }
@@ -149,12 +147,12 @@ public class Inventory : MonoBehaviour
     {
         if (remainingCapacity == 0) return;
 
-        int? openSlot = GetOpenSlot();
+        int? openSlot = GetOpenSlot(item);
 
         if (openSlot.HasValue)
         {
-            inventoryItems[openSlot.Value] = item;
             remainingCapacity--;
+            GameEvents.instance.InventoryItemAdded(openSlot.Value, item);
         }
     }
 

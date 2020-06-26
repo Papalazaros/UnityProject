@@ -23,7 +23,7 @@ public static class ItemDatabase
                 {
                     Id = 1,
                     Description = "A tin can full of Minestrone.",
-                    MaxStackSize = 1,
+                    MaxStackSize = 5,
                     Name = "Minestrone",
                     Rarity = Rarity.Common,
                     Sprite = "Sprites/1",

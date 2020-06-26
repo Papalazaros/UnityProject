@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class Consumable : Item
+public sealed class Consumable : Item
 {
     public IReadOnlyList<Effect> Effects { get; set; }
 

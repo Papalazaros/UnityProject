@@ -17,10 +17,16 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    public event Action OnDoorTrigger;
+    public event Action<int, Item> OnInventoryItemAdded;
+    public event Action<int, Item> OnInventoryItemRemoved;
 
-    public void DoorTrigger()
+    public void InventoryItemAdded(int slot, Item item)
     {
-        OnDoorTrigger?.Invoke();
+        OnInventoryItemAdded?.Invoke(slot, item);
+    }
+
+    public void InventoryItemRemoved(int slot, Item item)
+    {
+        OnInventoryItemRemoved?.Invoke(slot, item);
     }
 }

@@ -80,12 +80,12 @@ public class Health : MonoBehaviour, IHealth
         }
     }
 
-    void Start()
+    private void Start()
     {
         CurrentHealth = startingHealth;
     }
 
-    void Update()
+    private void Update()
     {
         if (enablePassiveRegen) CurrentHealth += passiveRegenRate * Time.deltaTime;
         CurrentHealth = Mathf.Clamp(CurrentHealth, minHealth, maxHealth);
