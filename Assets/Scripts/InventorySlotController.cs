@@ -8,17 +8,32 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
     [SerializeField]
     private Text itemCount;
     [SerializeField]
-    private Image image;
+    private Image itemImage;
     [SerializeField]
     private int slot;
+    private Image slotImage;
 
     public Item Item { get; set; }
     public int Count { get; set; }
 
     public void Start()
     {
+        slotImage = GetComponent<Image>();
         GameEvents.instance.OnInventoryItemAdded += AddItem;
         GameEvents.instance.OnInventoryItemRemoved += RemoveItem;
+        GameEvents.instance.OnInventorySlotSelected += InventorySlotSelected;
+    }
+
+    public void InventorySlotSelected(int slot)
+    {
+        if (this.slot == slot)
+        {
+            slotImage.color = new Color(200, 200, 200, 175);
+        }
+        else
+        {
+            slotImage.color = new Color(200, 200, 200, 25);
+        }
     }
 
     public void AddItem(int slot, Item item)
@@ -28,8 +43,8 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
             if (Item?.Id != item.Id)
             {
                 title.text = item.Name;
-                image.sprite = Resources.Load<Sprite>(item.Sprite);
-                image.color = new Color(255, 255, 255, 255);
+                itemImage.sprite = Resources.Load<Sprite>(item.Sprite);
+                itemImage.color = new Color(255, 255, 255, 255);
                 Item = item;
             }
 
@@ -45,8 +60,8 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
             if (Count == 1)
             {
                 title.text = null;
-                image.sprite = null;
-                image.color = new Color(255, 255, 255, 0);
+                itemImage.sprite = null;
+                itemImage.color = new Color(255, 255, 255, 0);
                 Item = null;
                 itemCount.text = null;
                 Count--;

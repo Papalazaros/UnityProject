@@ -5,9 +5,9 @@ public class Weapon: MonoBehaviour, IWeapon
     public GameObject bulletOrigin;
     public GameObject bullet;
     private Camera mainCamera;
-    private bool isEquipped;
+    private bool _isEquipped;
 
-    public bool IsEquipped { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool IsEquipped { get => _isEquipped; set => _isEquipped = value; }
 
     public void Unequip(BaseObject item)
     {
@@ -16,7 +16,7 @@ public class Weapon: MonoBehaviour, IWeapon
 
     public void Equip(BaseObject item)
     {
-        isEquipped = true;
+        _isEquipped = true;
     }
 
     public void Fire(Vector3 origin)
@@ -31,7 +31,7 @@ public class Weapon: MonoBehaviour, IWeapon
 
     private void LateUpdate()
     {
-        if (isEquipped) {
+        if (_isEquipped) {
             Vector3 rotateVector = transform.parent.transform.rotation * ((Vector3.forward * .50f) + (Vector3.down * .10f) + (Vector3.right * .25f));
             transform.position = transform.parent.transform.position + rotateVector;
             transform.eulerAngles = new Vector3(0, transform.parent.transform.eulerAngles.y + 90, mainCamera.transform.eulerAngles.x);

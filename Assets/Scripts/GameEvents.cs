@@ -15,6 +15,7 @@ public class GameEvents : MonoBehaviour
 
     public event Action<int, Item> OnInventoryItemAdded;
     public event Action<int, Item> OnInventoryItemRemoved;
+    public event Action<int> OnInventorySlotSelected;
 
     public void InventoryItemAdded(int slot, Item item)
     {
@@ -24,5 +25,10 @@ public class GameEvents : MonoBehaviour
     public void InventoryItemRemoved(int slot, Item item)
     {
         OnInventoryItemRemoved?.Invoke(slot, item);
+    }
+
+    public void InventorySlotSelected(int slot)
+    {
+        OnInventorySlotSelected?.Invoke(slot);
     }
 }

@@ -22,16 +22,16 @@ public class Sprint : MonoBehaviour
     {
         canSprint = currentStamina > 0;
 
-        if (Input.GetKey(KeyCode.LeftShift) && canSprint && rechargeDelay <= 0)
+        if (Input.GetKey(KeyCode.LeftShift) && canSprint)
         {
             Player.instance.currentMovementSpeed = Player.instance.baseMovementSpeed * speed;
             currentStamina -= Time.deltaTime * 25;
-            rechargeDelay = 1.0f;
+            rechargeDelay = 2.5f;
         }
 
-        if (currentStamina < maxStamina && !Input.GetKey(KeyCode.LeftShift))
+        if (currentStamina < maxStamina && !Input.GetKey(KeyCode.LeftShift) && rechargeDelay <= 0)
         {
-            currentStamina = Mathf.Clamp(currentStamina + (Time.deltaTime * 10), 0, maxStamina);
+            currentStamina = Mathf.Clamp(currentStamina + (Time.deltaTime * rechargeRate * 25), 0, maxStamina);
         }
 
         if (!Input.GetKey(KeyCode.LeftShift) || !canSprint)

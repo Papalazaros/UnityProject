@@ -6,13 +6,12 @@ public sealed class Player : MonoBehaviour
     public IHealth Health;
     [Range(0.1f, 0.5f)]
     public float groundDistance;
-    [SerializeField]
     [Range(2.5f, 5.0f)]
-    private float baseMovementSpeed;
+    public float baseMovementSpeed;
     public float currentMovementSpeed;
-    private CharacterController controller;
+    public CharacterController controller;
     private GameObject colliderBottom;
-    private bool isGrounded;
+    public bool isGrounded;
 
     private void Awake()
     {
@@ -29,7 +28,6 @@ public sealed class Player : MonoBehaviour
 
     private void Update()
     {
-        bool previouslyGrounded = isGrounded;
         isGrounded = Physics.Raycast(colliderBottom.transform.position, Vector3.down, groundDistance);
 
         transform.Rotate(0.0f, Input.GetAxis("Mouse X"), 0.0f, Space.Self);
