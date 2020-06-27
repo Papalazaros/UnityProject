@@ -60,6 +60,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
     {
         if (this.slot == slot)
         {
+            // Destroy equipped item on removal
             if (Player.instance.equippedItemObject != null && Player.instance.equippedItemObject.Id == item.Id)
             {
                 Destroy(Player.instance.equippedItemObject.gameObject);

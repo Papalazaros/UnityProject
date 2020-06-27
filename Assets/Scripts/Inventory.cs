@@ -130,8 +130,6 @@ public class Inventory : MonoBehaviour
     public static void Drop(Item item)
     {
         GameObject droppedItem = Instantiate(Resources.Load<GameObject>(item.Prefab));
-        Rigidbody rigidBody = droppedItem.GetComponent<Rigidbody>();
-        if (rigidBody != null) rigidBody.isKinematic = false;
         droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
     }
 }

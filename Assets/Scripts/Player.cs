@@ -18,7 +18,7 @@ public sealed class Player : MonoBehaviour
     {
         if (equippedItemObject != null && equippedItemObject.Id == item.Id)
         {
-            Destroy(equippedItemObject);
+            Destroy(equippedItemObject.gameObject);
             equippedItemObject = null;
         }
         else if (equippedItemObject == null)
@@ -64,11 +64,6 @@ public sealed class Player : MonoBehaviour
 
         if (!isGrounded) inputs *= .75f;
 
-        Quaternion rotation = transform.rotation;
-        rotation.x = 0;
-        rotation.z = 0;
-        Vector3 rotateVector = rotation * inputs;
-
-        controller.Move(rotateVector * Time.deltaTime * currentMovementSpeed);
+        controller.Move(transform.rotation * inputs * Time.deltaTime * currentMovementSpeed);
     }
 }

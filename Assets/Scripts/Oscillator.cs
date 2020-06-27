@@ -11,16 +11,18 @@ public class Oscillator : MonoBehaviour
     private int moveDirection = 1;
     private Vector3 initialPosition;
     private Rigidbody rigidbody;
+    private EquippableObject equippableObject;
 
     private void Start()
     {
         initialPosition = transform.position;
         rigidbody = GetComponent<Rigidbody>();
+        equippableObject = GetComponent<EquippableObject>();
     }
 
     private void Update()
     {
-        if (rigidbody == null || rigidbody.isKinematic)
+        if (rigidbody == null || rigidbody.isKinematic && (equippableObject == null || !equippableObject._isEquipped))
         {
             if (transform.position.y < initialPosition.y - maximumOffset || transform.position.y > initialPosition.y + maximumOffset)
             {
