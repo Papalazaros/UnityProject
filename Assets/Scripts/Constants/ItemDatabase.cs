@@ -49,7 +49,7 @@ public static class ItemDatabase
                     Name = "Weapon",
                     Rarity = Rarity.Common,
                     Sprite = "Sprites/1",
-                    Prefab = "Weapons/Gun"
+                    Prefab = "Weapons/Handgun_M1911A_Steel"
                 }
             }
         };

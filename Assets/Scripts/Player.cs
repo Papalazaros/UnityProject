@@ -12,17 +12,26 @@ public sealed class Player : MonoBehaviour
     public CharacterController controller;
     private GameObject colliderBottom;
     public bool isGrounded;
-    public Equippable equippedItem;
+    public EquippableObject equippedItemObject;
 
     public void EquipItem(Equippable item)
     {
-        equippedItem = item;
-        EquippableObject equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), gameObject.transform);
-        equippedItemObject._isEquipped = true;
-        equippedItemObject.transform.position = instance.transform.position
-            + (instance.transform.rotation * Vector3.forward * .25f)
-            + (instance.transform.rotation * Vector3.down * .10f)
-            + (instance.transform.rotation * Vector3.right * .25f);
+        if (equippedItemObject != null && equippedItemObject.Id == item.Id)
+        {
+            Destroy(equippedItemObject);
+            equippedItemObject = null;
+        }
+        else if (equippedItemObject == null)
+        {
+            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab));
+            equippedItemObject._isEquipped = true;
+        }
+        else if (equippedItemObject != null && equippedItemObject.Id != item.Id)
+        {
+            Destroy(equippedItemObject);
+            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab));
+            equippedItemObject._isEquipped = true;
+        }
     }
 
     private void Awake()

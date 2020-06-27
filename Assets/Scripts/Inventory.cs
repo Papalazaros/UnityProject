@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour
 
             if (item != null)
             {
-                GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
+                GameEvents.instance.InventoryItemDropped(selectedSlot.Value, item);
                 Drop(item);
             }
         }
@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour
             IInventorySlot inventorySlot = inventorySlots[i];
             Item itemInSlot = inventorySlot.Item;
 
-            if (itemInSlot == null || inventorySlot.Count + 1 <= item.MaxStackSize)
+            if (itemInSlot == null || (item.Id == itemInSlot.Id && inventorySlot.Count + 1 <= item.MaxStackSize))
             {
                 return i;
             }

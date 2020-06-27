@@ -3,10 +3,10 @@
 public class Oscillator : MonoBehaviour
 {
     [SerializeField]
-    [Range(0.0f, 1.0f)]
+    [Range(0.0f, 0.5f)]
     private float rate;
     [SerializeField]
-    [Range(0.0f, 1.0f)]
+    [Range(0.0f, 0.5f)]
     private float maximumOffset;
     private int moveDirection = 1;
     private Vector3 initialPosition;
@@ -20,17 +20,18 @@ public class Oscillator : MonoBehaviour
 
     private void Update()
     {
-        if (!rigidbody.isKinematic) return;
-
-        if (transform.position.y < initialPosition.y - maximumOffset || transform.position.y > initialPosition.y + maximumOffset)
+        if (rigidbody == null || rigidbody.isKinematic)
         {
-            var newPosition = initialPosition;
-            newPosition.y += maximumOffset * moveDirection;
-            transform.position = newPosition;
-            moveDirection *= -1;
-        }
+            if (transform.position.y < initialPosition.y - maximumOffset || transform.position.y > initialPosition.y + maximumOffset)
+            {
+                var newPosition = initialPosition;
+                newPosition.y += maximumOffset * moveDirection;
+                transform.position = newPosition;
+                moveDirection *= -1;
+            }
 
-        transform.position += moveDirection * Vector3.up * Time.deltaTime * rate;
-        transform.Rotate(new Vector3(0, 45 * Time.deltaTime, 0));
+            transform.position += moveDirection * Vector3.up * Time.deltaTime * rate;
+            transform.Rotate(new Vector3(0, 15 * Time.deltaTime, 0));
+        }
     }
 }

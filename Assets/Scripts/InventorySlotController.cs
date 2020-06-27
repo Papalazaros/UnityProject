@@ -22,7 +22,8 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
         slotImage = GetComponent<Image>();
         initialColor = slotImage.color;
         GameEvents.instance.OnInventoryItemAdded += AddItem;
-        GameEvents.instance.OnInventoryItemUsed += RemoveItem;
+        GameEvents.instance.OnInventoryItemUsed += UseItem;
+        GameEvents.instance.OnInventoryItemDropped += RemoveItem;
         GameEvents.instance.OnInventorySlotSelected += InventorySlotSelected;
     }
 
@@ -57,13 +58,13 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
 
     public void RemoveItem(int slot, Item item)
     {
-        if (item is Equippable equippable && Player.instance.equippedItem?.Id != item.Id)
-        {
-            GameEvents.instance.ItemEquipped(equippable);
-        }
-
         if (this.slot == slot)
         {
+            if (Player.instance.equippedItemObject != null && Player.instance.equippedItemObject.Id == item.Id)
+            {
+                Destroy(Player.instance.equippedItemObject.gameObject);
+            }
+
             if (Count == 1)
             {
                 title.text = null;
@@ -78,6 +79,21 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
             {
                 Count--;
                 itemCount.text = Count.ToString();
+            }
+        }
+    }
+
+    public void UseItem(int slot, Item item)
+    {
+        if (this.slot == slot)
+        {
+            if (item is Equippable equippable)
+            {
+                GameEvents.instance.ItemEquipped(equippable);
+            }
+            else
+            {
+                RemoveItem(slot, item);
             }
         }
     }

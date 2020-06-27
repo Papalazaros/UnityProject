@@ -16,6 +16,7 @@ public class InteractableObject : BaseObject
             Inventory.instance.Add(item);
             Destroy(gameObject);
         }
+
         base.Update();
     }
 }
