@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = Player.instance.transform.position;
+        transform.position = Player.instance.originPoint.transform.position;
         transform.eulerAngles = new Vector3(currentRotation.y, Player.instance.transform.eulerAngles.y, 0);
     }
 }

@@ -28,12 +28,12 @@ public class Jump : MonoBehaviour
             velocity.y += Mathf.Sqrt(-2f * jumpHeight * Physics.gravity.y);
         }
 
-        jumpCooldown = 1;
+        jumpCooldown = .75f;
     }
 
     private void Update()
     {
-        if (Input.GetButton("Jump") && Player.instance.isGrounded) DoJump();
+        if (Input.GetButtonDown("Jump") && Player.instance.isGrounded) DoJump();
         if (Player.instance.isGrounded && velocity.y < 0) velocity.y = 0f;
         if (!Player.instance.isGrounded && velocity.y < 0) velocity.y += Physics.gravity.y * 1.5f * Time.deltaTime;
         if (!Player.instance.isGrounded && velocity.y > 0 && Physics.Raycast(colliderTop.transform.position, Vector3.up, ceilingDistance)) velocity.y = 0;

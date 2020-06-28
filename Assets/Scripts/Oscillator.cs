@@ -33,7 +33,7 @@ public class Oscillator : MonoBehaviour
             }
 
             transform.position += moveDirection * Vector3.up * Time.deltaTime * rate;
-            transform.Rotate(new Vector3(0, 15 * Time.deltaTime, 0));
+            transform.Rotate(new Vector3(0, 15 * Time.deltaTime, 0), Space.World);
         }
     }
 }

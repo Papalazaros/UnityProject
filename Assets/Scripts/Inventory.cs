@@ -40,8 +40,8 @@ public class Inventory : MonoBehaviour
 
             if (item != null)
             {
-                GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
-                item.Use();
+                bool isUsed = item.Use();
+                if (isUsed) GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
             }
         }
 
@@ -53,7 +53,6 @@ public class Inventory : MonoBehaviour
 
             if (item != null)
             {
-                GameEvents.instance.InventoryItemDropped(selectedSlot.Value, item);
                 Drop(item);
             }
         }
@@ -127,9 +126,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public static void Drop(Item item)
+    public void Drop(Item item)
     {
         GameObject droppedItem = Instantiate(Resources.Load<GameObject>(item.Prefab));
         droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
+        GameEvents.instance.InventoryItemDropped(selectedSlot.Value, item);
     }
 }

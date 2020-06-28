@@ -8,8 +8,8 @@
     public string Prefab { get; set; }
     public int MaxStackSize { get; set; }
 
-    public virtual void Use()
+    public virtual bool Use()
     {
-
+        return false;
     }
 }

@@ -20,8 +20,11 @@ public class Projectile: MonoBehaviour, IProjectile
         rigidBody.AddForce(ray.direction * _speed, ForceMode.Impulse);
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
+        IHealth health = collision.transform.GetComponent<IHealth>();
+        Debug.Log(collision.transform.name);
+        health?.TakeDamage(Damage, 0);
         Destroy(gameObject);
     }
 }

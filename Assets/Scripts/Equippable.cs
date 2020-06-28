@@ -1,7 +1,7 @@
 ﻿public class Equippable : Consumable
 {
-    public override void Use()
+    public override bool Use()
     {
-
+        return true;
     }
 }

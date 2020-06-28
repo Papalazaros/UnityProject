@@ -13,6 +13,7 @@ public sealed class Player : MonoBehaviour
     private GameObject colliderBottom;
     public bool isGrounded;
     public EquippableObject equippedItemObject;
+    public GameObject originPoint;
 
     public void EquipItem(Equippable item)
     {

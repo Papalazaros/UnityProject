@@ -40,7 +40,7 @@ public class EquippableObject : InteractableObject
         if (_isEquipped)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Camera.main.transform.rotation, 5 * Time.deltaTime);
-            transform.position = Player.instance.transform.position
+            transform.position = Player.instance.originPoint.transform.position
                 + (Player.instance.transform.rotation * Vector3.forward * .50f)
                 + (Player.instance.transform.rotation * Vector3.down * .25f);
             if (Input.GetKeyDown(KeyCode.Mouse0) && readyToFire) Fire();
