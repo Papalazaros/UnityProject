@@ -13,18 +13,44 @@ public class Projectile: MonoBehaviour, IProjectile
     public float Damage { get => _damage; set => _damage = value; }
     public float Speed { get => _speed; set => _speed = value; }
 
-    private void Start()
+    private Vector3 newPos;
+    private Vector3 oldPos;
+    public float hitForce = 50f;
+
+    private IEnumerator CheckForCollision()
     {
-        Rigidbody rigidBody = GetComponent<Rigidbody>();
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-        rigidBody.AddForce(ray.direction * _speed, ForceMode.Impulse);
+        newPos = transform.position;
+        oldPos = newPos;
+
+        while (true)
+        {
+            Vector3 velocity = transform.forward * Speed;
+            newPos += velocity * Time.deltaTime;
+            Vector3 direction = newPos - oldPos;
+            float distance = direction.magnitude;
+
+            if (Physics.Raycast(oldPos, direction, out RaycastHit hit, distance))
+            {
+                if (hit.rigidbody != null)
+                {
+                    hit.rigidbody.AddForce(direction * hitForce);
+                    IHealth health = hit.transform.GetComponent<IHealth>();
+                    health?.TakeDamage(Damage);
+                    Destroy(gameObject);
+                    yield break;
+                }
+
+                newPos = hit.point;
+            }
+
+            yield return new WaitForFixedUpdate();
+            transform.position = newPos;
+            oldPos = newPos;
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Start()
     {
-        IHealth health = collision.transform.GetComponent<IHealth>();
-        Debug.Log(collision.transform.name);
-        health?.TakeDamage(Damage, 0);
-        Destroy(gameObject);
+        StartCoroutine(CheckForCollision());
     }
 }

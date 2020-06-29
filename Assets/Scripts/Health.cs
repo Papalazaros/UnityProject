@@ -50,7 +50,6 @@ public class Health : MonoBehaviour, IHealth
 
     public void TakeDamage(float damage, int applyOverDuration = 0)
     {
-        Debug.Log("test");
         StartCoroutine(TakeDamageOverTime(damage, applyOverDuration));
     }
 
@@ -97,7 +96,7 @@ public class Health : MonoBehaviour, IHealth
 
     private void Update()
     {
-        if (_currentHealth == _minHealth) Destroy(gameObject);
+        if (_currentHealth == _minHealth && gameObject.name != "Player") Destroy(gameObject);
         if (_enablePassiveRegen) _currentHealth += _passiveRegenRate * Time.deltaTime;
         _currentHealth = Mathf.Clamp(_currentHealth, _minHealth, _maxHealth);
         if (_healthBar != null) _healthBar.value = _currentHealth;

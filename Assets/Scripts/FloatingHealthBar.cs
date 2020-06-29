@@ -4,17 +4,22 @@ using UnityEngine.UI;
 public class FloatingHealthBar : MonoBehaviour
 {
     public Slider healthBar;
-    public GameObject trackingObject;
-    public RectTransform targetCanvas;
+    private GameObject trackingObject;
+    private RectTransform targetCanvas;
     private RectTransform rectTransform;
     private IHealth health;
+    private bool isActivated;
 
     private void Start()
     {
+        trackingObject = transform.parent.gameObject;
         health = trackingObject.transform.GetComponent<IHealth>();
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+        transform.SetParent(canvas.transform);
+        targetCanvas = canvas.GetComponent<RectTransform>();
         rectTransform = GetComponent<RectTransform>();
-        healthBar.gameObject.SetActive(true);
     }
+
     private void Update()
     {
         if (trackingObject == null)

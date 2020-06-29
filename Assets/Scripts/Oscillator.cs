@@ -22,7 +22,7 @@ public class Oscillator : MonoBehaviour
 
     private void Update()
     {
-        if (rigidbody == null || rigidbody.isKinematic && (equippableObject == null || !equippableObject._isEquipped))
+        if ((rigidbody == null || rigidbody.isKinematic) && (equippableObject == null || !equippableObject._isEquipped))
         {
             if (transform.position.y < initialPosition.y - maximumOffset || transform.position.y > initialPosition.y + maximumOffset)
             {
