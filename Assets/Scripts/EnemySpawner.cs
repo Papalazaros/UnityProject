@@ -7,8 +7,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] spawnPoints;
     private float _nextSpawnTime;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _nextSpawnTime -= Time.deltaTime;
 

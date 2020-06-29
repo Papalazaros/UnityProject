@@ -24,13 +24,13 @@ public sealed class Player : MonoBehaviour
         }
         else if (equippedItemObject == null)
         {
-            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab));
+            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), transform.position, transform.rotation);
             equippedItemObject._isEquipped = true;
         }
         else if (equippedItemObject != null && equippedItemObject.Id != item.Id)
         {
-            Destroy(equippedItemObject);
-            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab));
+            Destroy(equippedItemObject.gameObject);
+            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), transform.position, transform.rotation);
             equippedItemObject._isEquipped = true;
         }
     }

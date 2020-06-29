@@ -8,16 +8,30 @@ public class FloatingHealthBar : MonoBehaviour
     private RectTransform targetCanvas;
     private RectTransform rectTransform;
     private IHealth health;
-    private bool isActivated;
+    private Camera mainCamera;
+    private bool isReady;
 
-    private void Start()
+    public void UpdatePosition()
     {
-        trackingObject = transform.parent.gameObject;
-        health = trackingObject.transform.GetComponent<IHealth>();
+        Vector2 ViewportPosition = mainCamera.WorldToViewportPoint(trackingObject.transform.position);
+        rectTransform.anchoredPosition = new Vector2(
+        (ViewportPosition.x * targetCanvas.sizeDelta.x) - (targetCanvas.sizeDelta.x * 0.5f),
+        (ViewportPosition.y * targetCanvas.sizeDelta.y) - (targetCanvas.sizeDelta.y * 0.5f));
+    }
+
+    public void UpdatePosition(GameObject trackingObject, Camera mainCamera)
+    {
+        this.mainCamera = mainCamera;
+        this.trackingObject = trackingObject;
+        gameObject.transform.SetParent(trackingObject.transform);
+        health = trackingObject.GetComponent<IHealth>();
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         transform.SetParent(canvas.transform);
         targetCanvas = canvas.GetComponent<RectTransform>();
         rectTransform = GetComponent<RectTransform>();
+        transform.rotation = new Quaternion();
+        UpdatePosition();
+        isReady = true;
     }
 
     private void Update()
@@ -26,12 +40,9 @@ public class FloatingHealthBar : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
+        else if (trackingObject != null && isReady)
         {
-            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(trackingObject.transform.position);
-            rectTransform.anchoredPosition = new Vector2(
-            (ViewportPosition.x * targetCanvas.sizeDelta.x) - (targetCanvas.sizeDelta.x * 0.5f),
-            (ViewportPosition.y * targetCanvas.sizeDelta.y) - (targetCanvas.sizeDelta.y * 0.5f));
+            UpdatePosition();
             healthBar.value = health.CurrentHealth;
         }
     }

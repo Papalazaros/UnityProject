@@ -4,28 +4,49 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 
-public class EnemyController : MonoBehaviour, IGazeReceiver
+public class EnemyController : MonoBehaviour
 {
-    public float npcHP = 100;
-    public float npcDamage = 4;
-    public float attackRate = 0.5f;
+    public float damage = 5;
+    public float attackRate = 0.25f;
     public Transform firePoint;
+    public FloatingHealthBar floatingHealthBar;
     private NavMeshAgent agent;
     private Rigidbody rigidBody;
     private float nextAttackTime;
-    private FloatingHealthBar floatingHealthBar;
+    private Camera mainCamera;
+    private IHealth health;
+    private bool healthBarActivated;
 
     private void Start()
     {
+        health = GetComponent<IHealth>();
         agent = GetComponent<NavMeshAgent>();
         rigidBody = GetComponent<Rigidbody>();
-        floatingHealthBar = GetComponent<FloatingHealthBar>();
         rigidBody.useGravity = false;
         rigidBody.isKinematic = true;
+        mainCamera = Camera.main;
+    }
+
+    private bool OnScreen()
+    {
+        Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
+        return screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
     }
 
     private void Update()
     {
+        if (!healthBarActivated && health.CurrentHealth < health.MaxHealth && agent.remainingDistance <= agent.stoppingDistance * 3 && OnScreen())
+        {
+            floatingHealthBar.UpdatePosition(gameObject, mainCamera);
+            floatingHealthBar.gameObject.SetActive(true);
+            healthBarActivated = true;
+        }
+        else if (healthBarActivated && (health.CurrentHealth == health.MaxHealth || agent.remainingDistance > agent.stoppingDistance * 3 || !OnScreen()))
+        {
+            floatingHealthBar.gameObject.SetActive(false);
+            healthBarActivated = false;
+        }
+
         nextAttackTime -= Time.deltaTime;
 
         if (agent.remainingDistance - agent.stoppingDistance < 0.01f && nextAttackTime <= 0)
@@ -35,28 +56,11 @@ public class EnemyController : MonoBehaviour, IGazeReceiver
             if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, agent.stoppingDistance) && hit.transform.CompareTag("Player"))
             {
                 IHealth health = hit.transform.GetComponent<IHealth>();
-                health?.TakeDamage(npcDamage);
+                health?.TakeDamage(damage);
             }
         }
 
         agent.destination = Player.instance.transform.position;
-        transform.LookAt(new Vector3(Player.instance.transform.transform.position.x, transform.position.y, Player.instance.transform.position.z));
-        rigidBody.velocity *= 0.99f;
-    }
-
-    public void GazingUpon()
-    {
-        if (floatingHealthBar)
-        {
-            floatingHealthBar.gameObject.SetActive(true);
-        }
-    }
-
-    public void NotGazingUpon()
-    {
-        if (floatingHealthBar)
-        {
-            floatingHealthBar.gameObject.SetActive(false);
-        }
+        transform.LookAt(Player.instance.transform);
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class ItemDatabase
 {
@@ -49,7 +50,8 @@ public static class ItemDatabase
                     Name = "M1911",
                     Rarity = Rarity.Common,
                     Sprite = "Sprites/M1911",
-                    Prefab = "Weapons/Handgun_M1911A_Steel"
+                    Prefab = "Weapons/Handgun_M1911A_Steel",
+                    EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f)
                 }
             },
             {
@@ -72,6 +74,20 @@ public static class ItemDatabase
                             Amount = -10
                         }
                     }
+                }
+            },
+            {
+                4,
+                new Equippable
+                {
+                    Id = 4,
+                    Description = null,
+                    MaxStackSize = 1,
+                    Name = "Flashlight",
+                    Rarity = Rarity.Common,
+                    Sprite = "Sprites/Flashlight",
+                    Prefab = "Weapons/Flashlight",
+                    EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f) + (Vector3.left * .50f)
                 }
             },
         };

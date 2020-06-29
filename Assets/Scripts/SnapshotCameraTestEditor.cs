@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 #if (UNITY_EDITOR)
 // Custom editor code based on Oliver Eberlei's "Editor Scripting for n00bs" Unite Europe 2016 talk=
 // Video:   https://www.youtube.com/watch?v=9bHzTDIJX_Q
