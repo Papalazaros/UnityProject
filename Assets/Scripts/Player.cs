@@ -15,7 +15,7 @@ public sealed class Player : MonoBehaviour
     public EquippableObject equippedItemObject;
     public GameObject originPoint;
 
-    public void EquipItem(Equippable item)
+    public void EquipItem(Item item)
     {
         if (equippedItemObject != null && equippedItemObject.Id == item.Id)
         {

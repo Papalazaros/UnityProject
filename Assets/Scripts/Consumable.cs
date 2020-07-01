@@ -2,7 +2,7 @@
 
 public class Consumable : Item
 {
-    public static ItemAction[] DefaultItemActions = new ItemAction[]
+    public static new ItemAction[] DefaultItemActions = new ItemAction[]
     {
         ItemAction.Combine,
         ItemAction.Drop,

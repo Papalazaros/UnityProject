@@ -74,7 +74,8 @@ public static class ItemDatabase
                             EffectType = EffectType.TakeDamage,
                             Amount = -10
                         }
-                    }
+                    },
+                    Actions = Consumable.DefaultItemActions
                 }
             },
             {
@@ -88,9 +89,10 @@ public static class ItemDatabase
                     Rarity = Rarity.Common,
                     Sprite = "Sprites/Flashlight",
                     Prefab = "Weapons/Flashlight",
-                    EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f) + (Vector3.left * .50f)
+                    EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f) + (Vector3.left * .50f),
+                    Actions = Equippable.DefaultItemActions
                 }
-            },
+            }
         };
     }
 

@@ -14,10 +14,7 @@ public class GameEvents : MonoBehaviour
     }
 
     public event Action<int, Item> OnInventoryItemAdded;
-    public event Action<int, Item> OnInventoryItemUsed;
-    public event Action<int, Item> OnInventoryItemDropped;
-    public event Action<int> OnInventorySlotSelected;
-    public event Action<Equippable> OnItemEquipped;
+    public event Action<Item> OnItemEquipped;
     public event Action<float> OnTimeOfDayChanged;
 
     public void InventoryItemAdded(int slot, Item item)
@@ -25,22 +22,7 @@ public class GameEvents : MonoBehaviour
         OnInventoryItemAdded?.Invoke(slot, item);
     }
 
-    public void InventoryItemUsed(int slot, Item item)
-    {
-        OnInventoryItemUsed?.Invoke(slot, item);
-    }
-
-    public void InventoryItemDropped(int slot, Item item)
-    {
-        OnInventoryItemDropped?.Invoke(slot, item);
-    }
-
-    public void InventorySlotSelected(int slot)
-    {
-        OnInventorySlotSelected?.Invoke(slot);
-    }
-
-    public void ItemEquipped(Equippable item)
+    public void ItemEquipped(Item item)
     {
         OnItemEquipped?.Invoke(item);
     }

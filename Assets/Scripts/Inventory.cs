@@ -20,43 +20,43 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        int? currentSelectedSlot = GetSelectedItem();
+    //private void Update()
+    //{
+    //    int? currentSelectedSlot = GetSelectedItem();
 
-        if (currentSelectedSlot.HasValue
-            && selectedSlot != currentSelectedSlot
-            && currentSelectedSlot + 1 <= totalSlots)
-        {
-            selectedSlot = currentSelectedSlot;
-            GameEvents.instance.InventorySlotSelected(selectedSlot.Value);
-        }
+    //    if (currentSelectedSlot.HasValue
+    //        && selectedSlot != currentSelectedSlot
+    //        && currentSelectedSlot + 1 <= totalSlots)
+    //    {
+    //        selectedSlot = currentSelectedSlot;
+    //        GameEvents.instance.InventorySlotSelected(selectedSlot.Value);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (inventorySlots[selectedSlot.Value].Count == 0) return;
+    //    if (Input.GetKeyDown(KeyCode.Return))
+    //    {
+    //        if (inventorySlots[selectedSlot.Value].Count == 0) return;
 
-            Item item = inventorySlots[selectedSlot.Value].Item;
+    //        Item item = inventorySlots[selectedSlot.Value].Item;
 
-            if (item != null)
-            {
-                bool isUsed = item.Use();
-                if (isUsed) GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
-            }
-        }
+    //        if (item != null)
+    //        {
+    //            bool isUsed = item.Use();
+    //            if (isUsed) GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
+    //        }
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            if (inventorySlots[selectedSlot.Value].Count == 0) return;
+    //    if (Input.GetKeyDown(KeyCode.G))
+    //    {
+    //        if (inventorySlots[selectedSlot.Value].Count == 0) return;
 
-            Item item = inventorySlots[selectedSlot.Value].Item;
+    //        Item item = inventorySlots[selectedSlot.Value].Item;
 
-            if (item != null)
-            {
-                Drop(item);
-            }
-        }
-    }
+    //        if (item != null)
+    //        {
+    //            Drop(item);
+    //        }
+    //    }
+    //}
 
     private int? GetOpenSlot(Item item)
     {
@@ -116,7 +116,7 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
-    public void Add(Item item)
+    public bool Add(Item item)
     {
         int? openSlot = GetOpenSlot(item);
 
@@ -124,12 +124,14 @@ public class Inventory : MonoBehaviour
         {
             GameEvents.instance.InventoryItemAdded(openSlot.Value, item);
         }
+
+        return openSlot.HasValue;
     }
 
-    public void Drop(Item item)
-    {
-        GameObject droppedItem = Instantiate(Resources.Load<GameObject>(item.Prefab));
-        droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
-        GameEvents.instance.InventoryItemDropped(selectedSlot.Value, item);
-    }
+    //public void Drop(Item item)
+    //{
+    //    GameObject droppedItem = Instantiate(Resources.Load<GameObject>(item.Prefab));
+    //    droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
+    //    GameEvents.instance.InventoryItemDropped(selectedSlot.Value, item);
+    //}
 }

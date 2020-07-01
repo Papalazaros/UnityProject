@@ -1,6 +1,4 @@
-﻿using System;
-
-public class Item
+﻿public class Item
 {
     public static ItemAction[] DefaultItemActions = new ItemAction[]
     {
