@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.useGravity = false;
         rigidBody.isKinematic = true;
-        mainCamera = Camera.main;
+        mainCamera = Camera.main;        
     }
 
     private bool OnScreen()
@@ -37,14 +37,14 @@ public class EnemyController : MonoBehaviour
     {
         if (!healthBarActivated && health.CurrentHealth < health.MaxHealth && agent.remainingDistance <= agent.stoppingDistance * 3 && OnScreen())
         {
+            healthBarActivated = true;
             floatingHealthBar.UpdatePosition(gameObject, mainCamera);
             floatingHealthBar.gameObject.SetActive(true);
-            healthBarActivated = true;
         }
         else if (healthBarActivated && (health.CurrentHealth == health.MaxHealth || agent.remainingDistance > agent.stoppingDistance * 3 || !OnScreen()))
         {
-            floatingHealthBar.gameObject.SetActive(false);
             healthBarActivated = false;
+            floatingHealthBar.gameObject.SetActive(false);
         }
 
         nextAttackTime -= Time.deltaTime;

@@ -13,7 +13,10 @@ public class FloatingHealthBar : MonoBehaviour
 
     public void UpdatePosition()
     {
-        Vector2 ViewportPosition = mainCamera.WorldToViewportPoint(trackingObject.transform.position);
+        var offset = trackingObject.GetComponent<MeshFilter>().mesh.bounds.extents;
+        offset.x = 0;
+        offset.z = 0;
+        Vector2 ViewportPosition = mainCamera.WorldToViewportPoint(trackingObject.transform.position + offset);
         rectTransform.anchoredPosition = new Vector2(
         (ViewportPosition.x * targetCanvas.sizeDelta.x) - (targetCanvas.sizeDelta.x * 0.5f),
         (ViewportPosition.y * targetCanvas.sizeDelta.y) - (targetCanvas.sizeDelta.y * 0.5f));

@@ -18,6 +18,7 @@ public class GameEvents : MonoBehaviour
     public event Action<int, Item> OnInventoryItemDropped;
     public event Action<int> OnInventorySlotSelected;
     public event Action<Equippable> OnItemEquipped;
+    public event Action<float> OnTimeOfDayChanged;
 
     public void InventoryItemAdded(int slot, Item item)
     {
@@ -42,5 +43,10 @@ public class GameEvents : MonoBehaviour
     public void ItemEquipped(Equippable item)
     {
         OnItemEquipped?.Invoke(item);
+    }
+
+    public void TimeOfDayChanged(float timeOfDay)
+    {
+        OnTimeOfDayChanged?.Invoke(timeOfDay);
     }
 }

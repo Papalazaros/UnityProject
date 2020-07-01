@@ -2,6 +2,13 @@
 
 public class Consumable : Item
 {
+    public static ItemAction[] DefaultItemActions = new ItemAction[]
+    {
+        ItemAction.Combine,
+        ItemAction.Drop,
+        ItemAction.Use
+    };
+
     public IReadOnlyList<Effect> Effects { get; set; }
 
     public override bool Use()

@@ -51,7 +51,8 @@ public static class ItemDatabase
                     Rarity = Rarity.Common,
                     Sprite = "Sprites/M1911",
                     Prefab = "Weapons/Handgun_M1911A_Steel",
-                    EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f)
+                    EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f),
+                    Actions = Equippable.DefaultItemActions
                 }
             },
             {
