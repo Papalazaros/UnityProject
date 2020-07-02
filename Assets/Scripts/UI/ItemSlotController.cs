@@ -57,18 +57,6 @@ public class ItemSlotController : MonoBehaviour, IInventorySlot
         GameEvents.instance.OnInventoryItemAdded += Add;
     }
 
-    public void InventorySlotSelected(int slot)
-    {
-        if (this.slot == slot)
-        {
-            slotImage.color = new Color(200, 200, 200, 175);
-        }
-        else
-        {
-            slotImage.color = initialColor;
-        }
-    }
-
     public void Add(int slot, Item item, Guid itemInstanceId)
     {
         if (this.slot == slot)
@@ -78,7 +66,7 @@ public class ItemSlotController : MonoBehaviour, IInventorySlot
             if (Item?.Id != item.Id)
             {
                 title.text = item.Name;
-                itemImage.sprite = Resources.Load<Sprite>(item.SpritePath);
+                itemImage.sprite = AssetLoader.instance.Get<Sprite>($"Sprites/{item.Id}");
                 itemImage.color = new Color(255, 255, 255, 255);
                 Item = item;
             }
@@ -96,7 +84,7 @@ public class ItemSlotController : MonoBehaviour, IInventorySlot
         {
             title.text = null;
             itemImage.sprite = null;
-            itemImage.color = initialColor;
+            itemImage.color = new Color(255, 255, 255, 0);
             itemImage.preserveAspect = true;
             Item = null;
             itemCount.text = null;
@@ -112,7 +100,7 @@ public class ItemSlotController : MonoBehaviour, IInventorySlot
 
     public void Drop()
     {
-        BaseObject droppedItem = Instantiate(Resources.Load<BaseObject>(Item.PrefabPath));
+        BaseObject droppedItem = Instantiate(AssetLoader.instance.Get<BaseObject>($"Prefabs/{Item.Id}"));
         droppedItem.ItemInstanceId = ItemInstanceId;
         droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
         Remove();

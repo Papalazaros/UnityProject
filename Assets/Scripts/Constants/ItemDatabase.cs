@@ -18,8 +18,6 @@ public static class ItemDatabase
                     Description = null,
                     MaxStackSize = 5,
                     Name = "Minestrone",
-                    SpritePath = "Sprites/1",
-                    PrefabPath = "Food/Can_1",
                     Effects = new Effect[]
                     {
                         new Effect
@@ -39,8 +37,6 @@ public static class ItemDatabase
                     Description = null,
                     MaxStackSize = 1,
                     Name = "M1911",
-                    SpritePath = "Sprites/M1911",
-                    PrefabPath = "Weapons/Handgun_M1911A_Steel",
                     EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f),
                     Actions = Equippable.DefaultItemActions,
                     SlotType = SlotType.Weapon
@@ -53,9 +49,7 @@ public static class ItemDatabase
                     Id = 3,
                     Description = null,
                     MaxStackSize = 5,
-                    Name = "First-Aid Kit",
-                    SpritePath = "Sprites/FirstAid",
-                    PrefabPath = "Food/FirstAid",
+                    Name = "FirstAidKit",
                     Effects = new Effect[]
                     {
                         new Effect
@@ -76,8 +70,6 @@ public static class ItemDatabase
                     Description = null,
                     MaxStackSize = 1,
                     Name = "Flashlight",
-                    SpritePath = "Sprites/Flashlight",
-                    PrefabPath = "Weapons/Flashlight",
                     EquipOffset = (Vector3.forward * .50f) + (Vector3.down * .25f) + (Vector3.left * .50f),
                     Actions = Equippable.DefaultItemActions,
                     SlotType = SlotType.Auxiliary

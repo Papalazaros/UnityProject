@@ -16,51 +16,7 @@ public sealed class Player : MonoBehaviour
     private GameObject colliderBottom;
     public bool isGrounded;
     public GameObject originPoint;
-
     public Dictionary<SlotType, EquippableObject> equippedItems;
-
-    public void DestroyEquippedItem(Guid id)
-    {
-        EquippableObject equippableObject = equippedItems.FirstOrDefault(x => x.Value != null && x.Value.ItemInstanceId == id).Value;
-
-        if (equippableObject != null)
-        {
-            Destroy(equippableObject.gameObject);
-        }
-    }
-
-    public void EquipItem(Item item, Guid itemInstanceId)
-    {
-        EquippableObject equippedItemObject = equippedItems[item.SlotType];
-
-        if (equippedItemObject != null)
-        {
-            if (equippedItemObject.ItemInstanceId == itemInstanceId)
-            {
-                Destroy(equippedItemObject.gameObject);
-                equippedItems[item.SlotType] = null;
-            }
-            else
-            {
-                Destroy(equippedItemObject.gameObject);
-                equippedItems[item.SlotType] = InstantiateObject(item, itemInstanceId);
-            }
-        }
-        else
-        {
-            equippedItems[item.SlotType] = InstantiateObject(item, itemInstanceId);
-        }
-
-        GameEvents.instance.EquippedItemChanged(item.SlotType);
-    }
-
-    private EquippableObject InstantiateObject(Item item, Guid itemInstanceId)
-    {
-        EquippableObject itemObject = Instantiate(Resources.Load<EquippableObject>(item.PrefabPath), transform.position, transform.rotation);
-        itemObject.ItemInstanceId = itemInstanceId;
-        itemObject._isEquipped = true;
-        return itemObject;
-    }
 
     private void Awake()
     {
@@ -101,5 +57,48 @@ public sealed class Player : MonoBehaviour
         if (!isGrounded) inputs *= .75f;
 
         controller.Move(transform.rotation * inputs * Time.deltaTime * currentMovementSpeed);
+    }
+
+    public void DestroyEquippedItem(Guid id)
+    {
+        EquippableObject equippableObject = equippedItems.FirstOrDefault(x => x.Value != null && x.Value.ItemInstanceId == id).Value;
+
+        if (equippableObject != null)
+        {
+            Destroy(equippableObject.gameObject);
+        }
+    }
+
+    public void EquipItem(Item item, Guid itemInstanceId)
+    {
+        EquippableObject equippedItemObject = equippedItems[item.SlotType];
+
+        if (equippedItemObject != null)
+        {
+            if (equippedItemObject.ItemInstanceId == itemInstanceId)
+            {
+                Destroy(equippedItemObject.gameObject);
+                equippedItems[item.SlotType] = null;
+            }
+            else
+            {
+                Destroy(equippedItemObject.gameObject);
+                equippedItems[item.SlotType] = InstantiateObject(item, itemInstanceId);
+            }
+        }
+        else
+        {
+            equippedItems[item.SlotType] = InstantiateObject(item, itemInstanceId);
+        }
+
+        GameEvents.instance.EquippedItemChanged(item.SlotType);
+    }
+
+    private EquippableObject InstantiateObject(Item item, Guid itemInstanceId)
+    {
+        EquippableObject itemObject = Instantiate(AssetLoader.instance.Get<EquippableObject>($"Prefabs/{item.Id}"), transform.position, transform.rotation);
+        itemObject.ItemInstanceId = itemInstanceId;
+        itemObject._isEquipped = true;
+        return itemObject;
     }
 }

@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        if (!healthBarActivated && health.CurrentHealth < health.MaxHealth && agent.remainingDistance <= agent.stoppingDistance * 3 && OnScreen())
+        if (!healthBarActivated && health.CurrentHealth < health.MaxHealth && agent.remainingDistance <= agent.stoppingDistance * 5 && OnScreen())
         {
             healthBarActivated = true;
             floatingHealthBar.UpdatePosition(gameObject, mainCamera);

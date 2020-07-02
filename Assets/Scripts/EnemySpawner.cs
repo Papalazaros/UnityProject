@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (nextSpawnTime > 0) nextSpawnTime -= Time.deltaTime;
 
-        if (nextSpawnTime <= 0 && enemyCount <= maxEnemyCount && (timeOfDay < 16 || timeOfDay < 6))
+        if (nextSpawnTime <= 0 && enemyCount <= maxEnemyCount && (timeOfDay > 16 || timeOfDay < 6))
         {
             Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
             Instantiate(enemy, randomPoint.position, Quaternion.identity);

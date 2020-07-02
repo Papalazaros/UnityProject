@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class EquippableItemSlotController : MonoBehaviour
@@ -20,6 +21,23 @@ public class EquippableItemSlotController : MonoBehaviour
         GameEvents.instance.OnEquippedItemChanged += EquippedItemChanged;
     }
 
+    //IEnumerator LoadAsset<T>(T t, string assetBundleName, string objectNameToLoad) where T : Object
+    //{
+    //    string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "AssetBundles");
+    //    filePath = System.IO.Path.Combine(filePath, assetBundleName);
+
+    //    var assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(filePath);
+    //    yield return assetBundleCreateRequest;
+
+    //    AssetBundle assetBundle = assetBundleCreateRequest.assetBundle;
+
+    //    AssetBundleRequest asset = assetBundle.LoadAssetAsync<T>(objectNameToLoad);
+    //    yield return asset;
+
+    //    Debug.Log(asset.asset);
+    //    t = asset.asset as T;
+    //}
+
     private void EquippedItemChanged(SlotType slotType)
     {
         if (SlotType == slotType)
@@ -33,7 +51,7 @@ public class EquippableItemSlotController : MonoBehaviour
             }
             else
             {
-                Image.sprite = Resources.Load<Sprite>(equippableObject.Item.SpritePath);
+                Image.sprite = AssetLoader.instance.Get<Sprite>($"Sprites/{equippableObject.Item.Id}");
                 Image.preserveAspect = true;
                 Image.color = new Color(255, 255, 255, 255);
             }
