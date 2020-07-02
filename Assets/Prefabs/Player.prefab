@@ -49,7 +49,6 @@ GameObject:
   - component: {fileID: 8904098361755967776}
   - component: {fileID: 8904098361755967783}
   - component: {fileID: 8904098361755967782}
-  - component: {fileID: 8904098361755967781}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -151,6 +150,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   isGrounded: 0
   equippedItemObject: {fileID: 0}
+  originPoint: {fileID: 0}
 --- !u!143 &8904098361755967779
 CharacterController:
   m_ObjectHideFlags: 0
@@ -246,19 +246,6 @@ MonoBehaviour:
   maxStamina: 100
   sprintKey: 304
   StaminaBar: {fileID: 0}
---- !u!114 &8904098361755967781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8904098361755967785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 174247180599bfc43972c24b551744d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crosshairImage: {fileID: 2800000, guid: 5e2d6ea8d61cc564e85cd7c3c7eb2f5c, type: 3}
 --- !u!1 &8904098361816399269
 GameObject:
   m_ObjectHideFlags: 0

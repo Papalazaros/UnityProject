@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public sealed class Player : MonoBehaviour
 {
@@ -15,24 +16,29 @@ public sealed class Player : MonoBehaviour
     public EquippableObject equippedItemObject;
     public GameObject originPoint;
 
-    public void EquipItem(Item item)
+    public void EquipItem(Item item, Guid itemInstanceId)
     {
-        if (equippedItemObject != null && equippedItemObject.Id == item.Id)
+        if (equippedItemObject != null && equippedItemObject.ItemInstanceId == itemInstanceId)
         {
             Destroy(equippedItemObject.gameObject);
             equippedItemObject = null;
         }
         else if (equippedItemObject == null)
         {
-            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), transform.position, transform.rotation);
-            equippedItemObject._isEquipped = true;
+            InstantiateObject(itemInstanceId);
         }
-        else if (equippedItemObject != null && equippedItemObject.Id != item.Id)
+        else if (equippedItemObject != null && equippedItemObject.ItemInstanceId != itemInstanceId)
         {
             Destroy(equippedItemObject.gameObject);
-            equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), transform.position, transform.rotation);
-            equippedItemObject._isEquipped = true;
+            InstantiateObject(itemInstanceId);
         }
+    }
+    
+    private void InstantiateObject(Guid itemInstanceId)
+    {
+        equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), transform.position, transform.rotation);
+        equippedItemObject.ItemInstanceId = itemInstanceId;
+        equippedItemObject._isEquipped = true;
     }
 
     private void Awake()

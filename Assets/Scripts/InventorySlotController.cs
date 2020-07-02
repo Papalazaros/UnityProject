@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlotController : MonoBehaviour, IInventorySlot
@@ -18,6 +19,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
     public GameObject detailsPanel;
     private ItemDetailsController itemDetailsController;
 
+    public Guid ItemInstanceId { get; set; }
     public Item Item { get; set; }
     public int Count { get; set; }
 
@@ -67,10 +69,12 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
         }
     }
 
-    public void Add(int slot, Item item)
+    public void Add(int slot, Item item, Guid itemInstanceId)
     {
         if (this.slot == slot)
         {
+            ItemInstanceId = itemInstanceId;
+
             if (Item?.Id != item.Id)
             {
                 title.text = item.Name;
@@ -87,7 +91,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
     public void Remove()
     {
         // Destroy equipped item on removal
-        if (Player.instance.equippedItemObject != null && Player.instance.equippedItemObject.Id == Item.Id)
+        if (Player.instance.equippedItemObject != null && Player.instance.equippedItemObject.ItemInstanceId == ItemInstanceId)
         {
             Destroy(Player.instance.equippedItemObject.gameObject);
         }
@@ -112,7 +116,8 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
 
     public void Drop()
     {
-        GameObject droppedItem = Instantiate(Resources.Load<GameObject>(Item.Prefab));
+        BaseObject droppedItem = Instantiate(Resources.Load<BaseObject>(Item.Prefab));
+        droppedItem.ItemInstanceId = ItemInstanceId;
         droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
         Remove();
     }
@@ -134,7 +139,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
                 if (Item.Use()) Remove();
                 break;
             case ItemAction.Equip:
-                GameEvents.instance.ItemEquipped(Item);
+                GameEvents.instance.ItemEquipped(Item, ItemInstanceId);
                 break;
         }
     }

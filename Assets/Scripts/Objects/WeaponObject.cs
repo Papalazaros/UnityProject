@@ -46,6 +46,7 @@ public class WeaponObject : EquippableObject
         animator.SetTrigger("Fire");
         audioSource.PlayOneShot(fireSound, 0.5f);
         Instantiate(bullet, bulletOrigin.transform.position, transform.rotation);
+        EjectCasing();
         bulletsRemaining--;
     }
 
@@ -59,7 +60,7 @@ public class WeaponObject : EquippableObject
     {
         GameObject bulletCasing = Instantiate(casing, shellEjectOrigin.transform.position, transform.rotation);
         Rigidbody bulletCasingRigidBody = bulletCasing.GetComponent<Rigidbody>();
-        bulletCasingRigidBody.AddForce((transform.rotation * Vector3.right * 0.5f) + (transform.rotation * Vector3.up * 0.5f), ForceMode.Impulse);
+        bulletCasingRigidBody.AddForce((transform.rotation * Vector3.right * 0.5f) + (transform.rotation * Vector3.up * 0.5f), ForceMode.VelocityChange);
     }
 
     private void Update()

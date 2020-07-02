@@ -1,8 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class BaseObject : MonoBehaviour, IGazeReceiver
 {
-    public int Id;
+    public int ItemId;
+
+    private Guid _itemInstanceId;
+    public Guid ItemInstanceId
+    {
+        get
+        {
+            return _itemInstanceId;
+        }
+        set
+        {
+            bool updateState = _itemInstanceId != Guid.Empty;
+            _itemInstanceId = value;
+            if (updateState) AssignObjectState();
+        }
+    }
+
+    protected Dictionary<string, object> objectState;
     protected bool isGazingUpon;
     protected bool textCreated;
     protected Camera mainCamera;
@@ -12,12 +31,18 @@ public class BaseObject : MonoBehaviour, IGazeReceiver
 
     protected void Awake()
     {
-        item = ItemDatabase.Get(Id);
+        item = ItemDatabase.Get(ItemId);
+        ItemInstanceId = Guid.NewGuid();
     }
 
     protected void Start()
     {
         mainCamera = Camera.main;
+    }
+
+    private void AssignObjectState()
+    {
+        objectState = ObjectStateController.instance.Get(ItemInstanceId);
     }
 
     protected void Update()
@@ -57,5 +82,10 @@ public class BaseObject : MonoBehaviour, IGazeReceiver
         Destroy(text);
         isGazingUpon = false;
         textCreated = false;
+    }
+
+    private void OnDestroy()
+    {
+        ObjectStateController.instance.Set(ItemInstanceId, objectState);
     }
 }

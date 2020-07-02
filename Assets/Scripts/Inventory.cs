@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
     [SerializeField]
     private GameObject inventoryPanel;
-    private int? selectedSlot;
     private int totalSlots;
     private IInventorySlot[] inventorySlots;
 
@@ -19,44 +19,6 @@ public class Inventory : MonoBehaviour
             inventorySlots = inventoryPanel.GetComponentsInChildren<IInventorySlot>();
         }
     }
-
-    //private void Update()
-    //{
-    //    int? currentSelectedSlot = GetSelectedItem();
-
-    //    if (currentSelectedSlot.HasValue
-    //        && selectedSlot != currentSelectedSlot
-    //        && currentSelectedSlot + 1 <= totalSlots)
-    //    {
-    //        selectedSlot = currentSelectedSlot;
-    //        GameEvents.instance.InventorySlotSelected(selectedSlot.Value);
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.Return))
-    //    {
-    //        if (inventorySlots[selectedSlot.Value].Count == 0) return;
-
-    //        Item item = inventorySlots[selectedSlot.Value].Item;
-
-    //        if (item != null)
-    //        {
-    //            bool isUsed = item.Use();
-    //            if (isUsed) GameEvents.instance.InventoryItemUsed(selectedSlot.Value, item);
-    //        }
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.G))
-    //    {
-    //        if (inventorySlots[selectedSlot.Value].Count == 0) return;
-
-    //        Item item = inventorySlots[selectedSlot.Value].Item;
-
-    //        if (item != null)
-    //        {
-    //            Drop(item);
-    //        }
-    //    }
-    //}
 
     private int? GetOpenSlot(Item item)
     {
@@ -74,64 +36,15 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
-    private int? GetSelectedItem()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            return 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            return 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            return 2;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            return 3;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            return 4;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            return 5;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            return 6;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            return 7;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            return 8;
-        }
-
-        return null;
-    }
-
-    public bool Add(Item item)
+    public bool Add(Item item, Guid itemInstanceId)
     {
         int? openSlot = GetOpenSlot(item);
 
         if (openSlot.HasValue)
         {
-            GameEvents.instance.InventoryItemAdded(openSlot.Value, item);
+            GameEvents.instance.InventoryItemAdded(openSlot.Value, item, itemInstanceId);
         }
 
         return openSlot.HasValue;
     }
-
-    //public void Drop(Item item)
-    //{
-    //    GameObject droppedItem = Instantiate(Resources.Load<GameObject>(item.Prefab));
-    //    droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
-    //    GameEvents.instance.InventoryItemDropped(selectedSlot.Value, item);
-    //}
 }

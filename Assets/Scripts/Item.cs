@@ -2,7 +2,7 @@
 {
     public static ItemAction[] DefaultItemActions = new ItemAction[]
     {
-            ItemAction.None
+        ItemAction.None
     };
 
     public int Id { get; set; }

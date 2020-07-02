@@ -13,18 +13,19 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    public event Action<int, Item> OnInventoryItemAdded;
-    public event Action<Item> OnItemEquipped;
+    public event Action<int, Item, Guid> OnInventoryItemAdded;
+    public event Action<Item, Guid> OnItemEquipped;
     public event Action<float> OnTimeOfDayChanged;
+    public event Action<float> OnItemSelectedToCombine;
 
-    public void InventoryItemAdded(int slot, Item item)
+    public void InventoryItemAdded(int slot, Item item, Guid itemInstanceId)
     {
-        OnInventoryItemAdded?.Invoke(slot, item);
+        OnInventoryItemAdded?.Invoke(slot, item, itemInstanceId);
     }
 
-    public void ItemEquipped(Item item)
+    public void ItemEquipped(Item item, Guid itemInstanceId)
     {
-        OnItemEquipped?.Invoke(item);
+        OnItemEquipped?.Invoke(item, itemInstanceId);
     }
 
     public void TimeOfDayChanged(float timeOfDay)
