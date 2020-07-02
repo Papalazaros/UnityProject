@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class WeaponObject : EquippableObject
 {
@@ -15,10 +16,11 @@ public class WeaponObject : EquippableObject
     public AudioClip fireSound;
     public ParticleSystem particleSystem;
 
-    public int bulletsRemaining;
     public int maxBullets = 7;
 
-    private void Start()
+    private WeaponState weaponState;
+
+    private new void Start()
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
@@ -35,7 +37,7 @@ public class WeaponObject : EquippableObject
 
     public void ReloadComplete()
     {
-        bulletsRemaining = maxBullets;
+        weaponState.CurrentAmmoCount = maxBullets;
         isReloading = false;
     }
 
@@ -47,7 +49,7 @@ public class WeaponObject : EquippableObject
         audioSource.PlayOneShot(fireSound, 0.5f);
         Instantiate(bullet, bulletOrigin.transform.position, transform.rotation);
         EjectCasing();
-        bulletsRemaining--;
+        weaponState.CurrentAmmoCount--;
     }
 
     private void Reload()
@@ -63,13 +65,23 @@ public class WeaponObject : EquippableObject
         bulletCasingRigidBody.AddForce((transform.rotation * Vector3.right * 0.5f) + (transform.rotation * Vector3.up * 0.5f), ForceMode.VelocityChange);
     }
 
-    private void Update()
+    public override void AssignObjectState()
+    {
+        weaponState = WeaponState.Load(ObjectStateController.instance.Get(ItemInstanceId));
+    }
+
+    public override Dictionary<string, object> GetObjectState()
+    {
+        return weaponState?.Export();
+    }
+
+    private new void Update()
     {
         if (_isEquipped)
         {
             UpdatePosition();
             if (Input.GetKeyDown(KeyCode.R) && !isReloading) Reload();
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !isReloading && canFire && bulletsRemaining > 0) Fire();
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isReloading && canFire && weaponState.CurrentAmmoCount > 0 && !InputManager.instance.menuIsShowing) Fire();
         }
         else
         {

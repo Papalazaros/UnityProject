@@ -332,6 +332,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8491935211677227396, guid: 52cf2a42de425c04dbad2326efa3be14,
+        type: 3}
+      propertyPath: ItemId
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52cf2a42de425c04dbad2326efa3be14, type: 3}
 --- !u!4 &255309187 stripped
@@ -1386,6 +1391,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1356816246075853245, guid: 6241ef40758dd404b91e848e07dda193,
+        type: 3}
+      propertyPath: ItemId
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4035192642954326941, guid: 6241ef40758dd404b91e848e07dda193, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6241ef40758dd404b91e848e07dda193, type: 3}
@@ -1730,6 +1740,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4129726022411075232, guid: f2b3bff7c9d735441b445bb19a2fe9cc,
+        type: 3}
+      propertyPath: ItemId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1690370004738036, guid: f2b3bff7c9d735441b445bb19a2fe9cc, type: 3}
       propertyPath: m_Name
       value: Handgun_M1911A_Steel
@@ -2490,6 +2505,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 2126519011}
+  menuIsShowing: 0
+  instance: {fileID: 0}
 --- !u!4 &1415827903
 Transform:
   m_ObjectHideFlags: 0

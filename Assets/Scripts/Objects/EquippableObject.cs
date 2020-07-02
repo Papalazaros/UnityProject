@@ -4,7 +4,7 @@ public class EquippableObject : InteractableObject
 {
     public bool _isEquipped;
 
-    private void Start()
+    private new void Start()
     {
         base.Start();
         transform.rotation = Camera.main.transform.rotation;
@@ -16,7 +16,7 @@ public class EquippableObject : InteractableObject
         transform.position = Player.instance.originPoint.transform.position + (Player.instance.transform.rotation * ((Equippable)item).EquipOffset);
     }
 
-    private void Update()
+    private new void Update()
     {
         if (_isEquipped)
         {

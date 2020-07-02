@@ -2,11 +2,17 @@
 
 public class InputManager : MonoBehaviour
 {
-    public CanvasGroup menu;
-    private bool isShowing;
+    [SerializeField]
+    private CanvasGroup menu;
+    public bool menuIsShowing;
+    public static InputManager instance;
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
         SetDefaultCursorState();
     }
 
@@ -20,7 +26,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (isShowing)
+            if (menuIsShowing)
             {
                 SetDefaultCursorState();
             }
@@ -30,7 +36,7 @@ public class InputManager : MonoBehaviour
                 Cursor.visible = true;
             }
 
-            if (isShowing)
+            if (menuIsShowing)
             {
                 menu.alpha = 0f;
                 menu.blocksRaycasts = false;
@@ -41,7 +47,7 @@ public class InputManager : MonoBehaviour
                 menu.blocksRaycasts = true;
             }
 
-            isShowing = !isShowing;
+            menuIsShowing = !menuIsShowing;
         }
     }
 }

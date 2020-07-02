@@ -25,16 +25,16 @@ public sealed class Player : MonoBehaviour
         }
         else if (equippedItemObject == null)
         {
-            InstantiateObject(itemInstanceId);
+            InstantiateObject(item, itemInstanceId);
         }
         else if (equippedItemObject != null && equippedItemObject.ItemInstanceId != itemInstanceId)
         {
             Destroy(equippedItemObject.gameObject);
-            InstantiateObject(itemInstanceId);
+            InstantiateObject(item, itemInstanceId);
         }
     }
-    
-    private void InstantiateObject(Guid itemInstanceId)
+
+    private void InstantiateObject(Item item, Guid itemInstanceId)
     {
         equippedItemObject = Instantiate(Resources.Load<EquippableObject>(item.Prefab), transform.position, transform.rotation);
         equippedItemObject.ItemInstanceId = itemInstanceId;

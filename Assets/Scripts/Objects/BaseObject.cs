@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseObject : MonoBehaviour, IGazeReceiver
+public abstract class BaseObject : MonoBehaviour, IGazeReceiver
 {
     public int ItemId;
 
@@ -21,7 +21,6 @@ public class BaseObject : MonoBehaviour, IGazeReceiver
         }
     }
 
-    protected Dictionary<string, object> objectState;
     protected bool isGazingUpon;
     protected bool textCreated;
     protected Camera mainCamera;
@@ -40,9 +39,13 @@ public class BaseObject : MonoBehaviour, IGazeReceiver
         mainCamera = Camera.main;
     }
 
-    private void AssignObjectState()
+    public virtual Dictionary<string, object> GetObjectState()
     {
-        objectState = ObjectStateController.instance.Get(ItemInstanceId);
+        return null;
+    }
+
+    public virtual void AssignObjectState()
+    {
     }
 
     protected void Update()
@@ -86,6 +89,6 @@ public class BaseObject : MonoBehaviour, IGazeReceiver
 
     private void OnDestroy()
     {
-        ObjectStateController.instance.Set(ItemInstanceId, objectState);
+        ObjectStateController.instance.Set(ItemInstanceId, GetObjectState());
     }
 }
