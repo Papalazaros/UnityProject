@@ -1,5 +1,5 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 #if (UNITY_EDITOR)
 // Custom editor code based on Oliver Eberlei's "Editor Scripting for n00bs" Unite Europe 2016 talk=
 // Video:   https://www.youtube.com/watch?v=9bHzTDIJX_Q
@@ -12,7 +12,7 @@ public class SnapshotCameraTestEditor : Editor
 {
     SnapshotCameraTest m_Target;
 
-    public override void OnInspectorGUI ()
+    public override void OnInspectorGUI()
     {
         m_Target = (SnapshotCameraTest)target;
 
@@ -20,7 +20,7 @@ public class SnapshotCameraTestEditor : Editor
         DrawCustomInspector();
     }
 
-    void DrawCustomInspector ()
+    void DrawCustomInspector()
     {
         EditorGUI.BeginChangeCheck();
         GameObject objectToSnapshot = (GameObject)EditorGUILayout.ObjectField("Object To Snapshot", m_Target.objectToSnapshot, typeof(GameObject), true);

@@ -4,29 +4,21 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour, IHealth
 {
-    [SerializeField]
-    [Range(0f, 100f)]
+    [SerializeField, Range(0f, 100f)]
     private float _passiveRegenRate;
-    [SerializeField]
+    [SerializeField, Range(0f, 100f)]
     private float _currentHealth;
-    [SerializeField]
-    [Range(0f, 100f)]
-    private float _startingHealth;
-    [SerializeField]
-    [Range(0f, 100f)]
+    [SerializeField, Range(0f, 100f)]
     private float _minHealth;
-    [SerializeField]
-    [Range(0f, 100f)]
+    [SerializeField, Range(0f, 100f)]
     private float _maxHealth;
-    [SerializeField]
-    [Range(0.25f, 1f)]
+    [SerializeField, Range(0.25f, 1f)]
     private float _tickRate;
     [SerializeField]
     private bool _enablePassiveRegen;
 
     public float PassiveRegenRate { get => _passiveRegenRate; set => _passiveRegenRate = value; }
     public float CurrentHealth { get => _currentHealth; set => _currentHealth = value; }
-    public float StartingHealth { get => _startingHealth; set => _startingHealth = value; }
     public float MinHealth { get => _minHealth; set => _minHealth = value; }
     public float MaxHealth { get => _maxHealth; set => _maxHealth = value; }
     public float TickRate { get => _tickRate; set => _tickRate = value; }
@@ -58,7 +50,7 @@ public class Health : MonoBehaviour, IHealth
         _enablePassiveRegen = false;
         float remainingDuration = duration;
 
-        for (;;)
+        for (; ; )
         {
             if (remainingDuration <= 0)
             {
@@ -87,11 +79,6 @@ public class Health : MonoBehaviour, IHealth
             remainingDamage -= damagePerTick;
             yield return new WaitForSeconds(_tickRate);
         }
-    }
-
-    private void Start()
-    {
-        _currentHealth = _startingHealth;
     }
 
     private void Update()

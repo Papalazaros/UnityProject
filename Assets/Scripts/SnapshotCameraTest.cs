@@ -1,6 +1,7 @@
 using UnityEngine;
 #if (UNITY_EDITOR)
-public class SnapshotCameraTest : MonoBehaviour {
+public class SnapshotCameraTest : MonoBehaviour
+{
     [HideInInspector]
     public GameObject objectToSnapshot;
     [HideInInspector]
@@ -15,11 +16,12 @@ public class SnapshotCameraTest : MonoBehaviour {
     private SnapshotCamera snapshotCamera;
     private Texture2D texture;
 
-	void Start () {
+    void Start()
+    {
         snapshotCamera = SnapshotCamera.MakeSnapshotCamera("1", "SnapshotLayer");
 
         UpdatePreview();
-	}
+    }
 
     void OnGUI()
     {
@@ -32,7 +34,7 @@ public class SnapshotCameraTest : MonoBehaviour {
         }
     }
 
-    public void UpdatePreview ()
+    public void UpdatePreview()
     {
         if (objectToSnapshot != null)
         {
@@ -45,7 +47,8 @@ public class SnapshotCameraTest : MonoBehaviour {
         }
     }
 
-	void Update () {
+    void Update()
+    {
         // Save a PNG of the snapshot when pressing space
         if (Input.GetKeyUp(KeyCode.Space))
         {
@@ -54,6 +57,6 @@ public class SnapshotCameraTest : MonoBehaviour {
 
             Debug.Log(string.Format("Snapshot {0} saved to {1}", fi.Name, fi.DirectoryName));
         }
-	}
+    }
 }
 #endif

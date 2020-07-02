@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using UnityEngine;
 #if (UNITY_EDITOR)
 // Object rendering code based on Dave Carlile's "Create a GameObject Image Using Render Textures" post
 // Link: http://crappycoding.com/2014/12/create-gameobject-image-using-render-textures/

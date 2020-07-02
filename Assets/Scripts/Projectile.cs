@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Projectile: MonoBehaviour, IProjectile
+public class Projectile : MonoBehaviour, IProjectile
 {
-    [SerializeField]
-    [Range(0.1f, 100f)]
+    [SerializeField, Range(0.1f, 100f)]
     private float _damage;
-    [SerializeField]
-    [Range(0.1f, 100f)]
+    [SerializeField, Range(0.1f, 100f)]
     private float _speed;
 
     public float Damage { get => _damage; set => _damage = value; }

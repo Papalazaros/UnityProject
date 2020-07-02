@@ -2,17 +2,15 @@
 
 public class Jump : MonoBehaviour
 {
-    [SerializeField]
-    [Range(0.1f, 0.5f)]
+    [SerializeField, Range(0.1f, 0.5f)]
     private float ceilingDistance;
-    [SerializeField]
-    [Range(0f, 5f)]
+    [SerializeField, Range(0f, 5f)]
     private float jumpHeight;
     private Vector3 velocity;
     private float jumpCooldown;
     private GameObject colliderTop;
 
-    private void Start()
+    private void Awake()
     {
         colliderTop = transform.GetChild(0).gameObject;
     }

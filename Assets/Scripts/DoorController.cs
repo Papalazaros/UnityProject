@@ -32,7 +32,7 @@ public class DoorController : MonoBehaviour
     private void ButtonPressed()
     {
         doorOpen = !doorOpen;
-        SetDoorEvent(doorOpen ? "Open" : "Close" );
+        SetDoorEvent(doorOpen ? "Open" : "Close");
     }
 
     private void SetDoorEvent(string direction)

@@ -9,7 +9,7 @@ public class ItemDetailsController : MonoBehaviour
 
     public void CreateActions(ItemAction[] itemActions)
     {
-        foreach(ItemAction action in itemActions)
+        foreach (ItemAction action in itemActions)
         {
             ItemActionController actionController = Instantiate(ItemActionController, ActionsHolder.transform);
             actionController.ActionText = action;

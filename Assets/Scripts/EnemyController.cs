@@ -17,14 +17,14 @@ public class EnemyController : MonoBehaviour
     private IHealth health;
     private bool healthBarActivated;
 
-    private void Start()
+    private void Awake()
     {
         health = GetComponent<IHealth>();
         agent = GetComponent<NavMeshAgent>();
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.useGravity = false;
         rigidBody.isKinematic = true;
-        mainCamera = Camera.main;        
+        mainCamera = Camera.main;
     }
 
     private bool OnScreen()

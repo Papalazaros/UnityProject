@@ -7,7 +7,7 @@ public class GazeManager : MonoBehaviour
     private Camera mainCamera;
     private GameObject lastGazedUpon;
 
-    private void Start()
+    private void Awake()
     {
         mainCamera = Camera.main;
     }

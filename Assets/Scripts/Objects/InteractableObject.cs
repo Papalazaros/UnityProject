@@ -11,7 +11,7 @@ public class InteractableObject : BaseObject
 
     protected new void Update()
     {
-        if (ObjectActionTriggered() && item is Consumable && Inventory.instance.Add(item, ItemInstanceId))
+        if (ObjectActionTriggered() && Item is Consumable && Inventory.instance.Add(Item, ItemInstanceId))
         {
             Destroy(gameObject);
         }

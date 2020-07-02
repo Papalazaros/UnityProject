@@ -17,6 +17,12 @@ public class GameEvents : MonoBehaviour
     public event Action<Item, Guid> OnItemEquipped;
     public event Action<float> OnTimeOfDayChanged;
     public event Action<float> OnItemSelectedToCombine;
+    public event Action<SlotType> OnEquippedItemChanged;
+
+    public void EquippedItemChanged(SlotType slotType)
+    {
+        OnEquippedItemChanged?.Invoke(slotType);
+    }
 
     public void InventoryItemAdded(int slot, Item item, Guid itemInstanceId)
     {

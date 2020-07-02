@@ -6,14 +6,13 @@ public class EquippableObject : InteractableObject
 
     private new void Start()
     {
-        base.Start();
         transform.rotation = Camera.main.transform.rotation;
     }
 
     protected void UpdatePosition()
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, Camera.main.transform.rotation, 5 * Time.deltaTime);
-        transform.position = Player.instance.originPoint.transform.position + (Player.instance.transform.rotation * ((Equippable)item).EquipOffset);
+        transform.position = Player.instance.originPoint.transform.position + (Player.instance.transform.rotation * ((Equippable)Item).EquipOffset);
     }
 
     private new void Update()

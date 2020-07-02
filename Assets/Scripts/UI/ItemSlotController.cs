@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotController : MonoBehaviour, IInventorySlot
+public class ItemSlotController : MonoBehaviour, IInventorySlot
 {
     [SerializeField]
     private Text title;
@@ -78,7 +78,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
             if (Item?.Id != item.Id)
             {
                 title.text = item.Name;
-                itemImage.sprite = Resources.Load<Sprite>(item.Sprite);
+                itemImage.sprite = Resources.Load<Sprite>(item.SpritePath);
                 itemImage.color = new Color(255, 255, 255, 255);
                 Item = item;
             }
@@ -90,17 +90,13 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
 
     public void Remove()
     {
-        // Destroy equipped item on removal
-        if (Player.instance.equippedItemObject != null && Player.instance.equippedItemObject.ItemInstanceId == ItemInstanceId)
-        {
-            Destroy(Player.instance.equippedItemObject.gameObject);
-        }
+        Player.instance.DestroyEquippedItem(ItemInstanceId);
 
         if (Count == 1)
         {
             title.text = null;
             itemImage.sprite = null;
-            itemImage.color = new Color(255, 255, 255, 0);
+            itemImage.color = initialColor;
             itemImage.preserveAspect = true;
             Item = null;
             itemCount.text = null;
@@ -116,7 +112,7 @@ public class InventorySlotController : MonoBehaviour, IInventorySlot
 
     public void Drop()
     {
-        BaseObject droppedItem = Instantiate(Resources.Load<BaseObject>(Item.Prefab));
+        BaseObject droppedItem = Instantiate(Resources.Load<BaseObject>(Item.PrefabPath));
         droppedItem.ItemInstanceId = ItemInstanceId;
         droppedItem.transform.position = Player.instance.transform.position + (Player.instance.transform.rotation * Vector3.forward);
         Remove();

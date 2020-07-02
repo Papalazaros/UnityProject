@@ -24,7 +24,6 @@ public class WeaponObject : EquippableObject
     {
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
-        base.Start();
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public class WeaponObject : EquippableObject
         canFire = false;
         particleSystem.Play();
         animator.SetTrigger("Fire");
-        audioSource.PlayOneShot(fireSound, 0.5f);
+        audioSource.PlayOneShot(fireSound, 0.25f);
         Instantiate(bullet, bulletOrigin.transform.position, transform.rotation);
         EjectCasing();
         weaponState.CurrentAmmoCount--;
@@ -81,7 +80,7 @@ public class WeaponObject : EquippableObject
         {
             UpdatePosition();
             if (Input.GetKeyDown(KeyCode.R) && !isReloading) Reload();
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !isReloading && canFire && weaponState.CurrentAmmoCount > 0 && !InputManager.instance.menuIsShowing) Fire();
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isReloading && canFire && weaponState.CurrentAmmoCount > 0 && !InputManager.instance.inputDisabled) Fire();
         }
         else
         {

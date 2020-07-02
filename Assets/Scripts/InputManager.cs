@@ -3,8 +3,10 @@
 public class InputManager : MonoBehaviour
 {
     [SerializeField]
-    private CanvasGroup menu;
-    public bool menuIsShowing;
+    private CanvasGroup InventoryPanel;
+    [SerializeField]
+    private CanvasGroup EquipmentPanel;
+    public bool inputDisabled;
     public static InputManager instance;
 
     private void Awake()
@@ -26,7 +28,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (menuIsShowing)
+            if (inputDisabled)
             {
                 SetDefaultCursorState();
             }
@@ -36,18 +38,22 @@ public class InputManager : MonoBehaviour
                 Cursor.visible = true;
             }
 
-            if (menuIsShowing)
+            if (inputDisabled)
             {
-                menu.alpha = 0f;
-                menu.blocksRaycasts = false;
+                InventoryPanel.alpha = 0f;
+                EquipmentPanel.alpha = 0f;
+                InventoryPanel.blocksRaycasts = false;
+                EquipmentPanel.blocksRaycasts = false;
             }
             else
             {
-                menu.alpha = 1f;
-                menu.blocksRaycasts = true;
+                InventoryPanel.alpha = 1f;
+                EquipmentPanel.alpha = 1f;
+                InventoryPanel.blocksRaycasts = true;
+                EquipmentPanel.blocksRaycasts = true;
             }
 
-            menuIsShowing = !menuIsShowing;
+            inputDisabled = !inputDisabled;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿public interface IHealth
 {
     float CurrentHealth { get; set; }
-    float StartingHealth { get; set; }
     float MaxHealth { get; set; }
     float MinHealth { get; set; }
     float PassiveRegenRate { get; set; }

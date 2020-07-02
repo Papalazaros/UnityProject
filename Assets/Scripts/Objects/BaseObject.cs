@@ -5,8 +5,10 @@ using UnityEngine;
 public abstract class BaseObject : MonoBehaviour, IGazeReceiver
 {
     public int ItemId;
+    public Item Item;
 
     private Guid _itemInstanceId;
+
     public Guid ItemInstanceId
     {
         get
@@ -26,26 +28,12 @@ public abstract class BaseObject : MonoBehaviour, IGazeReceiver
     protected Camera mainCamera;
     protected GameObject text;
     protected TextMesh textMesh;
-    protected Item item;
 
     protected void Awake()
     {
-        item = ItemDatabase.Get(ItemId);
+        Item = ItemDatabase.Get(ItemId);
         ItemInstanceId = Guid.NewGuid();
-    }
-
-    protected void Start()
-    {
         mainCamera = Camera.main;
-    }
-
-    public virtual Dictionary<string, object> GetObjectState()
-    {
-        return null;
-    }
-
-    public virtual void AssignObjectState()
-    {
     }
 
     protected void Update()
@@ -57,7 +45,7 @@ public abstract class BaseObject : MonoBehaviour, IGazeReceiver
             text.transform.position = GetTextPosition();
             text.transform.rotation = mainCamera.transform.rotation;
             textMesh = text.AddComponent<TextMesh>();
-            textMesh.text = item?.Name ?? gameObject.transform.name;
+            textMesh.text = Item?.Name ?? gameObject.transform.name;
             textMesh.characterSize = .01f;
             textMesh.fontSize = 100;
             textMesh.alignment = TextAlignment.Center;
@@ -87,8 +75,18 @@ public abstract class BaseObject : MonoBehaviour, IGazeReceiver
         textCreated = false;
     }
 
+    public virtual Dictionary<string, object> GetObjectState()
+    {
+        return null;
+    }
+
+    public virtual void AssignObjectState()
+    {
+    }
+
     private void OnDestroy()
     {
+        Debug.Log(ItemInstanceId);
         ObjectStateController.instance.Set(ItemInstanceId, GetObjectState());
     }
 }

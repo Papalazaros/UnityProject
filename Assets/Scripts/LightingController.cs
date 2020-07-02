@@ -10,7 +10,7 @@ public class LightingController : MonoBehaviour
     private LightingPreset LightingPreset;
     [SerializeField, Range(0, 24)]
     private float TimeOfDay;
-    private readonly float UpdateInterval= 15f;
+    private readonly float UpdateInterval = 15f;
 
     private void Start()
     {
@@ -71,7 +71,7 @@ public class LightingController : MonoBehaviour
 
     private IEnumerator SendUpdate()
     {
-        for(;;)
+        for (; ; )
         {
             GameEvents.instance.TimeOfDayChanged(TimeOfDay);
             yield return new WaitForSeconds(UpdateInterval);
