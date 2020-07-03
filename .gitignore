@@ -53,3 +53,5 @@ crashlytics-build.properties
 /Snapshots
 /Build.zip
 /Assets/StreamingAssets
+/Assets/Samples
+/LocalPackages/com.unity.render-pipelines.high-definition-config

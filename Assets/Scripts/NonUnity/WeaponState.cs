@@ -20,6 +20,7 @@ public class WeaponState
         {
             Durability = 100
         };
+
         if (state == null) return weaponState;
         weaponState.Durability = (int)state["Durability"];
         weaponState.CurrentAmmoCount = (int)state["CurrentAmmoCount"];

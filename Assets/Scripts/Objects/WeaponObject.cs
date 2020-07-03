@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WeaponObject : EquippableObject
 {
@@ -10,6 +12,7 @@ public class WeaponObject : EquippableObject
 
     private Animator animator;
     private bool canFire = true;
+    private bool isZoomed;
     private bool isReloading;
 
     private AudioSource audioSource;
@@ -78,9 +81,22 @@ public class WeaponObject : EquippableObject
     {
         if (_isEquipped)
         {
-            UpdatePosition();
             if (Input.GetKeyDown(KeyCode.R) && !isReloading) Reload();
             if (Input.GetKeyDown(KeyCode.Mouse0) && !isReloading && canFire && weaponState.CurrentAmmoCount > 0 && !InputManager.instance.inputDisabled) Fire();
+            if (Input.GetKeyDown(KeyCode.Mouse1) && !InputManager.instance.inputDisabled)
+            {
+                isZoomed = !isZoomed;
+            }
+
+            if (isZoomed)
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, mainCamera.transform.rotation, 10 * Time.deltaTime);
+                transform.position = mainCamera.transform.position + (mainCamera.transform.rotation * ((Vector3.forward * 0.175f) + (Vector3.down * .125f)));
+            }
+            else
+            {
+                UpdatePosition();
+            }
         }
         else
         {

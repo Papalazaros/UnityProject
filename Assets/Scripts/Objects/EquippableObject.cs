@@ -3,16 +3,18 @@
 public class EquippableObject : InteractableObject
 {
     public bool _isEquipped;
+    private Equippable equippableItem;
 
     private new void Start()
     {
-        transform.rotation = Camera.main.transform.rotation;
+        transform.rotation = mainCamera.transform.rotation;
     }
 
     protected void UpdatePosition()
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, Camera.main.transform.rotation, 5 * Time.deltaTime);
-        transform.position = Player.instance.originPoint.transform.position + (Player.instance.transform.rotation * ((Equippable)Item).EquipOffset);
+        if (equippableItem == null) equippableItem = (Equippable)Item;
+        transform.rotation = Quaternion.Lerp(transform.rotation, mainCamera.transform.rotation, 10 * Time.deltaTime);
+        transform.position = mainCamera.transform.position + (mainCamera.transform.rotation * equippableItem.EquipOffset);
     }
 
     private new void Update()

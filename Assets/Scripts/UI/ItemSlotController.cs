@@ -67,6 +67,7 @@ public class ItemSlotController : MonoBehaviour, IInventorySlot
             {
                 title.text = item.Name;
                 itemImage.sprite = AssetLoader.instance.Get<Sprite>($"Sprites/{item.Id}");
+                itemImage.preserveAspect = true;
                 itemImage.color = new Color(255, 255, 255, 255);
                 Item = item;
             }

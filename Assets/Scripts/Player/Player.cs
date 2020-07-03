@@ -66,6 +66,8 @@ public sealed class Player : MonoBehaviour
         if (equippableObject != null)
         {
             Destroy(equippableObject.gameObject);
+            equippedItems[equippableObject.Item.SlotType] = null;
+            GameEvents.instance.EquippedItemChanged(equippableObject.Item.SlotType);
         }
     }
 
